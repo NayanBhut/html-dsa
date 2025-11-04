@@ -1,0 +1,5271 @@
+{
+	"data_structures": [
+		{
+			"category": "Tree",
+			"elements": [
+				{
+					"name": "BST Insert",
+					"complexity": {
+						"time": "O(h), where h is the height of the tree",
+						"space": "O(1) iterative, O(h) recursive"
+					},
+					"pseudocode": [
+						"function insert(root, key):",
+						"    if root is null:",
+						"        return new Node(key)",
+						"",
+						"    if key < root.key:",
+						"        root.left = insert(root.left, key)",
+						"    else if key > root.key:",
+						"        root.right = insert(root.right, key)",
+						"",
+						"    return root"
+					],
+					"usage": [
+						"Building a binary search tree",
+						"Dynamic set insertion",
+						"Symbol table in compilers",
+						"Teaching recursion"
+					]
+				},
+				{
+					"name": "BST Search",
+					"complexity": {
+						"time": "O(h), where h is the height of the tree",
+						"space": "O(1) iterative, O(h) recursive"
+					},
+					"pseudocode": [
+						"function search(root, key):",
+						"    if root is null or root.key == key:",
+						"        return root",
+						"",
+						"    if key < root.key:",
+						"        return search(root.left, key)",
+						"",
+						"    return search(root.right, key)"
+					],
+					"usage": [
+						"Lookup in ordered data",
+						"Dictionary key search",
+						"Database index scan",
+						"Autocomplete prefix check"
+					]
+				},
+				{
+					"name": "BST Delete",
+					"complexity": {
+						"time": "O(h), where h is the height of the tree",
+						"space": "O(h) recursive"
+					},
+					"pseudocode": [
+						"function delete(root, key):",
+						"    if root is null:",
+						"        return root",
+						"",
+						"    if key < root.key:",
+						"        root.left = delete(root.left, key)",
+						"    else if key > root.key:",
+						"        root.right = delete(root.right, key)",
+						"    else:",
+						"        if root.left is null:",
+						"            return root.right",
+						"        else if root.right is null:",
+						"            return root.left",
+						"        else:",
+						"            temp = minValueNode(root.right)",
+						"            root.key = temp.key",
+						"            root.right = delete(root.right, temp.key)",
+						"",
+						"    return root",
+						"",
+						"function minValueNode(node):",
+						"    current = node",
+						"    while current.left is not null:",
+						"        current = current.left",
+						"    return current"
+					],
+					"usage": [
+						"Dynamic set removal",
+						"Memory deallocation in trees",
+						"Cache invalidation",
+						"Removing nodes in game AI"
+					]
+				},
+				{
+					"name": "BST Inorder Traversal",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(h), where h is the height of the tree"
+					},
+					"pseudocode": [
+						"function inorderTraversal(root):",
+						"    if root is not null:",
+						"        inorderTraversal(root.left)",
+						"        print(root.key)",
+						"        inorderTraversal(root.right)"
+					],
+					"usage": [
+						"Print sorted order",
+						"Validate BST property",
+						"Convert BST to sorted array",
+						"Range queries"
+					]
+				},
+				{
+					"name": "BST Preorder Traversal",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(h), where h is the height of the tree"
+					},
+					"pseudocode": [
+						"function preorderTraversal(root):",
+						"    if root is not null:",
+						"        print(root.key)",
+						"        preorderTraversal(root.left)",
+						"        preorderTraversal(root.right)"
+					],
+					"usage": [
+						"Copy tree structure",
+						"Serialization (prefix notation)",
+						"Expression tree evaluation",
+						"Tree cloning"
+					]
+				},
+				{
+					"name": "BST Postorder Traversal",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(h), where h is the height of the tree"
+					},
+					"pseudocode": [
+						"function postorderTraversal(root):",
+						"    if root is not null:",
+						"        postorderTraversal(root.left)",
+						"        postorderTraversal(root.right)",
+						"        print(root.key)"
+					],
+					"usage": [
+						"Delete tree (free memory)",
+						"Postfix expression evaluation",
+						"Bottom-up computation",
+						"Dependency resolution"
+					]
+				},
+				{
+					"name": "BST Level Order Traversal",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(w), where w is max width of tree"
+					},
+					"pseudocode": [
+						"function levelOrderTraversal(root):",
+						"    if root is null:",
+						"        return",
+						"",
+						"    queue = Queue()",
+						"    queue.enqueue(root)",
+						"",
+						"    while queue is not empty:",
+						"        node = queue.dequeue()",
+						"        print(node.key)",
+						"",
+						"        if node.left is not null:",
+						"            queue.enqueue(node.left)",
+						"        if node.right is not null:",
+						"            queue.enqueue(node.right)"
+					],
+					"usage": [
+						"Print tree level by level",
+						"Find shortest path in tree",
+						"Tree visualization",
+						"BFS-based algorithms"
+					]
+				},
+				{
+					"name": "AVL Insert",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(log n) recursion stack"
+					},
+					"pseudocode": [
+						"function insert(root, key):",
+						"    if root is null:",
+						"        return newNode(key)",
+						"",
+						"    if key < root.key:",
+						"        root.left = insert(root.left, key)",
+						"    else if key > root.key:",
+						"        root.right = insert(root.right, key)",
+						"    else:",
+						"        return root  // No duplicates",
+						"",
+						"    root.height = 1 + max(height(root.left), height(root.right))",
+						"    balance = height(root.left) - height(root.right)",
+						"",
+						"    // Left Left Case",
+						"    if balance > 1 and key < root.left.key:",
+						"        return rightRotate(root)",
+						"",
+						"    // Right Right Case",
+						"    if balance < -1 and key > root.right.key:",
+						"        return leftRotate(root)",
+						"",
+						"    // Left Right Case",
+						"    if balance > 1 and key > root.left.key:",
+						"        root.left = leftRotate(root.left)",
+						"        return rightRotate(root)",
+						"",
+						"    // Right Left Case",
+						"    if balance < -1 and key < root.right.key:",
+						"        root.right = rightRotate(root.right)",
+						"        return leftRotate(root)",
+						"",
+						"    return root",
+						"",
+						"function rightRotate(y):",
+						"    x = y.left",
+						"    T2 = x.right",
+						"    x.right = y",
+						"    y.left = T2",
+						"    y.height = max(height(y.left), height(y.right)) + 1",
+						"    x.height = max(height(x.left), height(x.right)) + 1",
+						"    return x",
+						"",
+						"function leftRotate(x):",
+						"    y = x.right",
+						"    T2 = y.left",
+						"    y.left = x",
+						"    x.right = T2",
+						"    x.height = max(height(x.left), height(x.right)) + 1",
+						"    y.height = max(height(y.left), height(y.right)) + 1",
+						"    return y",
+						"",
+						"function height(node):",
+						"    if node is null: return 0",
+						"    return node.height"
+					],
+					"usage": [
+						"Self-balancing insert in databases",
+						"std::map, std::set in C++",
+						"Memory allocators",
+						"Real-time systems needing guaranteed log n"
+					]
+				},
+				{
+					"name": "AVL Search",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(1) iterative, O(log n) recursive"
+					},
+					"pseudocode": [
+						"function search(root, key):",
+						"    if root is null or root.key == key:",
+						"        return root",
+						"",
+						"    if key < root.key:",
+						"        return search(root.left, key)",
+						"",
+						"    return search(root.right, key)"
+					],
+					"usage": [
+						"Fast lookup in balanced tree",
+						"Dictionary implementations",
+						"Autocomplete systems",
+						"Cache with ordered keys"
+					]
+				},
+				{
+					"name": "AVL Delete",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(log n) recursion stack"
+					},
+					"pseudocode": [
+						"function delete(root, key):",
+						"    if root is null: return root",
+						"",
+						"    if key < root.key:",
+						"        root.left = delete(root.left, key)",
+						"    else if key > root.key:",
+						"        root.right = delete(root.right, key)",
+						"    else:",
+						"        if root.left is null: return root.right",
+						"        else if root.right is null: return root.left",
+						"        temp = minValueNode(root.right)",
+						"        root.key = temp.key",
+						"        root.right = delete(root.right, temp.key)",
+						"",
+						"    if root is null: return root",
+						"",
+						"    root.height = 1 + max(height(root.left), height(root.right))",
+						"    balance = height(root.left) - height(root.right)",
+						"",
+						"    // Left Left Case",
+						"    if balance > 1 and getBalance(root.left) >= 0:",
+						"        return rightRotate(root)",
+						"",
+						"    // Left Right Case",
+						"    if balance > 1 and getBalance(root.left) < 0:",
+						"        root.left = leftRotate(root.left)",
+						"        return rightRotate(root)",
+						"",
+						"    // Right Right Case",
+						"    if balance < -1 and getBalance(root.right) <= 0:",
+						"        return leftRotate(root)",
+						"",
+						"    // Right Left Case",
+						"    if balance < -1 and getBalance(root.right) > 0:",
+						"        root.right = rightRotate(root.right)",
+						"        return leftRotate(root)",
+						"",
+						"    return root",
+						"",
+						"function minValueNode(node):",
+						"    current = node",
+						"    while current.left is not null:",
+						"        current = current.left",
+						"    return current",
+						"",
+						"function getBalance(node):",
+						"    if node is null: return 0",
+						"    return height(node.left) - height(node.right)",
+						"",
+						"function height(node):",
+						"    if node is null: return 0",
+						"    return node.height"
+					],
+					"usage": [
+						"Dynamic set with frequent delete",
+						"Ordered statistics",
+						"Real-time indexing",
+						"Self-balancing after removal"
+					]
+				},
+				{
+					"name": "RB Insert",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(log n) recursion stack"
+					},
+					"pseudocode": [
+						"function insert(root, key):",
+						"    node = newNode(key)",
+						"    node.color = RED",
+						"",
+						"    // Standard BST Insert",
+						"    parent = null",
+						"    current = root",
+						"    while current != null:",
+						"        parent = current",
+						"        if key < current.key:",
+						"            current = current.left",
+						"        else:",
+						"            current = current.right",
+						"",
+						"    node.parent = parent",
+						"    if parent == null:",
+						"        root = node",
+						"    else if key < parent.key:",
+						"        parent.left = node",
+						"    else:",
+						"        parent.right = node",
+						"",
+						"    fixInsert(node)",
+						"    return root",
+						"",
+						"function fixInsert(z):",
+						"    while z.parent != null and z.parent.color == RED:",
+						"        if z.parent == z.parent.parent.left:",
+						"            uncle = z.parent.parent.right",
+						"            if uncle != null and uncle.color == RED:",
+						"                z.parent.color = BLACK",
+						"                uncle.color = BLACK",
+						"                z.parent.parent.color = RED",
+						"                z = z.parent.parent",
+						"            else:",
+						"                if z == z.parent.right:",
+						"                    z = z.parent",
+						"                    leftRotate(z)",
+						"                z.parent.color = BLACK",
+						"                z.parent.parent.color = RED",
+						"                rightRotate(z.parent.parent)",
+						"        else:  // z.parent is right child",
+						"            uncle = z.parent.parent.left",
+						"            if uncle != null and uncle.color == RED:",
+						"                z.parent.color = BLACK",
+						"                uncle.color = BLACK",
+						"                z.parent.parent.color = RED",
+						"                z = z.parent.parent",
+						"            else:",
+						"                if z == z.parent.left:",
+						"                    z = z.parent",
+						"                    rightRotate(z)",
+						"                z.parent.color = BLACK",
+						"                z.parent.parent.color = RED",
+						"                leftRotate(z.parent.parent)",
+						"",
+						"    root.color = BLACK",
+						"",
+						"function leftRotate(x):",
+						"    y = x.right",
+						"    x.right = y.left",
+						"    if y.left != null:",
+						"        y.left.parent = x",
+						"    y.parent = x.parent",
+						"    if x.parent == null:",
+						"        root = y",
+						"    else if x == x.parent.left:",
+						"        x.parent.left = y",
+						"    else:",
+						"        x.parent.right = y",
+						"    y.left = x",
+						"    x.parent = y",
+						"",
+						"function rightRotate(y):",
+						"    x = y.left",
+						"    y.left = x.right",
+						"    if x.right != null:",
+						"        x.right.parent = y",
+						"    x.parent = y.parent",
+						"    if y.parent == null:",
+						"        root = x",
+						"    else if y == y.parent.right:",
+						"        y.parent.right = x",
+						"    else:",
+						"        y.parent.left = x",
+						"    x.right = y",
+						"    y.parent = x"
+					],
+					"usage": [
+						"C++ std::map, std::set",
+						"Java TreeMap, TreeSet",
+						"Linux CFS scheduler",
+						"Real-time systems needing amortized balance"
+					]
+				},
+				{
+					"name": "RB Search",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(1) iterative"
+					},
+					"pseudocode": [
+						"function search(root, key):",
+						"    current = root",
+						"    while current != null:",
+						"        if key == current.key:",
+						"            return current",
+						"        else if key < current.key:",
+						"            current = current.left",
+						"        else:",
+						"            current = current.right",
+						"    return null"
+					],
+					"usage": [
+						"Fast key lookup in balanced tree",
+						"Ordered dictionary",
+						"Autocomplete with prefix",
+						"Cache with key ordering"
+					]
+				},
+				{
+					"name": "RB Delete",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(log n) recursion stack"
+					},
+					"pseudocode": [
+						"function delete(root, key):",
+						"    z = search(root, key)",
+						"    if z == null: return root",
+						"",
+						"    y = z",
+						"    y_original_color = y.color",
+						"",
+						"    if z.left == null:",
+						"        x = z.right",
+						"        transplant(z, z.right)",
+						"    else if z.right == null:",
+						"        x = z.left",
+						"        transplant(z, z.left)",
+						"    else:",
+						"        y = minValueNode(z.right)",
+						"        y_original_color = y.color",
+						"        x = y.right",
+						"        if y.parent == z:",
+						"            if x != null: x.parent = y",
+						"        else:",
+						"            transplant(y, y.right)",
+						"            y.right = z.right",
+						"            y.right.parent = y",
+						"        transplant(z, y)",
+						"        y.left = z.left",
+						"        y.left.parent = y",
+						"        y.color = z.color",
+						"",
+						"    if y_original_color == BLACK and x != null:",
+						"        fixDelete(x)",
+						"",
+						"    return root",
+						"",
+						"function fixDelete(x):",
+						"    while x != root and x.color == BLACK:",
+						"        if x == x.parent.left:",
+						"            s = x.parent.right",
+						"            if s.color == RED:",
+						"                s.color = BLACK",
+						"                x.parent.color = RED",
+						"                leftRotate(x.parent)",
+						"                s = x.parent.right",
+						"            if s.left.color == BLACK and s.right.color == BLACK:",
+						"                s.color = RED",
+						"                x = x.parent",
+						"            else:",
+						"                if s.right.color == BLACK:",
+						"                    s.left.color = BLACK",
+						"                    s.color = RED",
+						"                    rightRotate(s)",
+						"                    s = x.parent.right",
+						"                s.color = x.parent.color",
+						"                x.parent.color = BLACK",
+						"                s.right.color = BLACK",
+						"                leftRotate(x.parent)",
+						"                x = root",
+						"        else:  // symmetric right case",
+						"            // (mirror of above)",
+						"    x.color = BLACK",
+						"",
+						"function transplant(u, v):",
+						"    if u.parent == null:",
+						"        root = v",
+						"    else if u == u.parent.left:",
+						"        u.parent.left = v",
+						"    else:",
+						"        u.parent.right = v",
+						"    if v != null:",
+						"        v.parent = u.parent",
+						"",
+						"function minValueNode(node):",
+						"    while node.left != null:",
+						"        node = node.left",
+						"    return node"
+					],
+					"usage": [
+						"Dynamic set with frequent delete",
+						"Java Collections Framework",
+						"Process scheduling",
+						"Self-balancing after removal"
+					]
+				},
+				{
+					"name": "B-Tree Insert",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(log n) recursion stack"
+					},
+					"pseudocode": [
+						"function insert(root, key):",
+						"    if root is full:",
+						"        newRoot = new Node()",
+						"        newRoot.children[0] = root",
+						"        splitChild(newRoot, 0)",
+						"        root = newRoot",
+						"",
+						"    insertNonFull(root, key)",
+						"",
+						"function insertNonFull(node, key):",
+						"    i = node.n - 1",
+						"    if node.isLeaf:",
+						"        while i >= 0 and key < node.keys[i]:",
+						"            node.keys[i+1] = node.keys[i]",
+						"            i--",
+						"        node.keys[i+1] = key",
+						"        node.n++",
+						"    else:",
+						"        while i >= 0 and key < node.keys[i]: i--",
+						"        i++",
+						"        if node.children[i].isFull:",
+						"            splitChild(node, i)",
+						"            if key > node.keys[i]: i++",
+						"        insertNonFull(node.children[i], key)",
+						"",
+						"function splitChild(parent, i):",
+						"    t = minimum degree",
+						"    fullChild = parent.children[i]",
+						"    newNode = new Node()",
+						"    newNode.n = t - 1",
+						"",
+						"    for j = 0 to t-2:",
+						"        newNode.keys[j] = fullChild.keys[j + t]",
+						"",
+						"    if not fullChild.isLeaf:",
+						"        for j = 0 to t-1:",
+						"            newNode.children[j] = fullChild.children[j + t]",
+						"",
+						"    fullChild.n = t - 1",
+						"    for j = parent.n to i+1 downto:",
+						"        parent.children[j+1] = parent.children[j]",
+						"",
+						"    parent.children[i+1] = newNode",
+						"    for j = parent.n-1 to i downto:",
+						"        parent.keys[j+1] = parent.keys[j]",
+						"",
+						"    parent.keys[i] = fullChild.keys[t-1]",
+						"    parent.n++"
+					],
+					"usage": [
+						"MySQL, PostgreSQL indexing",
+						"File systems (NTFS, HFS+, ext4)",
+						"Disk-based databases",
+						"Minimize disk I/O"
+					]
+				},
+				{
+					"name": "B-Tree Search",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(log n) recursion stack"
+					},
+					"pseudocode": [
+						"function search(node, key):",
+						"    i = 0",
+						"    while i < node.n and key > node.keys[i]:",
+						"        i++",
+						"",
+						"    if i < node.n and key == node.keys[i]:",
+						"        return (node, i)",
+						"",
+						"    if node.isLeaf:",
+						"        return null",
+						"",
+						"    return search(node.children[i], key)"
+					],
+					"usage": [
+						"Fast disk-based lookup",
+						"Range queries in databases",
+						"Index scan optimization",
+						"Secondary storage search"
+					]
+				},
+				{
+					"name": "B-Tree Delete",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(log n) recursion stack"
+					},
+					"pseudocode": [
+						"function delete(node, key):",
+						"    i = 0",
+						"    while i < node.n and key > node.keys[i]: i++",
+						"",
+						"    if i < node.n and key == node.keys[i]:",
+						"        if node.isLeaf:",
+						"            removeFromLeaf(node, i)",
+						"        else:",
+						"            removeFromNonLeaf(node, i)",
+						"    else:",
+						"        if node.isLeaf: return",
+						"        flag = (i == node.n)",
+						"        if node.children[i].n < t: fill(node, i)",
+						"        if flag and i > node.n:",
+						"            delete(node.children[i-1], key)",
+						"        else:",
+						"            delete(node.children[i], key)",
+						"",
+						"function removeFromLeaf(node, i):",
+						"    for j = i+1 to node.n-1:",
+						"        node.keys[j-1] = node.keys[j]",
+						"    node.n--",
+						"",
+						"function removeFromNonLeaf(node, i):",
+						"    k = node.keys[i]",
+						"    if node.children[i].n >= t:",
+						"        pred = getPredecessor(node, i)",
+						"        node.keys[i] = pred",
+						"        delete(node.children[i], pred)",
+						"    else if node.children[i+1].n >= t:",
+						"        succ = getSuccessor(node, i)",
+						"        node.keys[i] = succ",
+						"        delete(node.children[i+1], succ)",
+						"    else:",
+						"        merge(node, i)",
+						"        delete(node.children[i], k)",
+						"",
+						"function fill(node, i):",
+						"    if i != 0 and node.children[i-1].n >= t:",
+						"        borrowFromPrev(node, i)",
+						"    else if i != node.n and node.children[i+1].n >= t:",
+						"        borrowFromNext(node, i)",
+						"    else:",
+						"        if i != node.n: merge(node, i)",
+						"        else: merge(node, i-1)",
+						"",
+						"function merge(node, i):",
+						"    child = node.children[i]",
+						"    sibling = node.children[i+1]",
+						"    child.keys[t-1] = node.keys[i]",
+						"    for j = 0 to sibling.n-1:",
+						"        child.keys[t + j] = sibling.keys[j]",
+						"    if not child.isLeaf:",
+						"        for j = 0 to sibling.n:",
+						"            child.children[t + j] = sibling.children[j]",
+						"    for j = i+1 to node.n-1:",
+						"        node.keys[j-1] = node.keys[j]",
+						"    for j = i+2 to node.n:",
+						"        node.children[j-1] = node.children[j]",
+						"    child.n += sibling.n + 1",
+						"    node.n--",
+						"    // Free sibling node"
+					],
+					"usage": [
+						"Database index maintenance",
+						"Large-scale delete operations",
+						"Rebalancing on disk",
+						"High-concurrency systems"
+					]
+				},
+				{
+					"name": "Trie Insert",
+					"complexity": {
+						"time": "O(m), m = key length",
+						"space": "O(m)"
+					},
+					"pseudocode": [
+						"function insert(root, word):",
+						"    node = root",
+						"    for char in word:",
+						"        if char not in node.children:",
+						"            node.children[char] = new TrieNode()",
+						"        node = node.children[char]",
+						"    node.isEndOfWord = true"
+					],
+					"usage": [
+						"Autocomplete suggestions",
+						"Dictionary word insertion",
+						"Spell checker word list",
+						"Prefix-based search"
+					]
+				},
+				{
+					"name": "Trie Search",
+					"complexity": {
+						"time": "O(m), m = key length",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function search(root, word):",
+						"    node = root",
+						"    for char in word:",
+						"        if char not in node.children:",
+						"            return false",
+						"        node = node.children[char]",
+						"    return node.isEndOfWord"
+					],
+					"usage": [
+						"Exact word lookup",
+						"Dictionary validation",
+						"IP routing (longest prefix)",
+						"Word games (Scrabble)"
+					]
+				},
+				{
+					"name": "Trie Delete",
+					"complexity": {
+						"time": "O(m), m = key length",
+						"space": "O(m) recursion stack"
+					},
+					"pseudocode": [
+						"function delete(root, word):",
+						"    if not search(root, word): return false",
+						"    deleteHelper(root, word, 0)",
+						"    return true",
+						"",
+						"function deleteHelper(node, word, index):",
+						"    if index == len(word):",
+						"        node.isEndOfWord = false",
+						"        return len(node.children) == 0",
+						"",
+						"    char = word[index]",
+						"    child = node.children[char]",
+						"    shouldDelete = deleteHelper(child, word, index + 1)",
+						"",
+						"    if shouldDelete:",
+						"        delete node.children[char]",
+						"        return len(node.children) == 0 and not node.isEndOfWord",
+						"",
+						"    return false"
+					],
+					"usage": [
+						"Dynamic dictionary updates",
+						"Autocomplete cleanup",
+						"Memory-efficient word removal",
+						"Real-time spell check"
+					]
+				}
+			]
+		},
+		{
+			"category": "Graph",
+			"elements": [
+				{
+					"name": "Directed",
+					"description": "Edges have a direction (u → v).",
+					"representation": "Adjacency list: map[u] → [v1, v2, …]",
+					"pseudocode": {
+						"addEdge": [
+							"function addEdge(graph, u, v):",
+							"    if u not in graph: graph[u] = []",
+							"    graph[u].append(v)   // no duplicate check"
+						],
+						"removeEdge": [
+							"function removeEdge(graph, u, v):",
+							"    if u in graph:",
+							"        graph[u] = [x for x in graph[u] if x != v]"
+						],
+						"hasEdge": [
+							"function hasEdge(graph, u, v):",
+							"    return u in graph and v in graph[u]"
+						]
+					},
+					"usage": [
+						"Social networks (follower → followee)",
+						"Web page links",
+						"Dependency graphs (build systems)",
+						"Task scheduling"
+					]
+				},
+				{
+					"name": "Undirected",
+					"description": "Edges are bidirectional (u ↔ v).",
+					"representation": "Adjacency list: add both directions.",
+					"pseudocode": {
+						"addEdge": [
+							"function addEdge(graph, u, v):",
+							"    if u not in graph: graph[u] = []",
+							"    if v not in graph: graph[v] = []",
+							"    graph[u].append(v)",
+							"    graph[v].append(u)"
+						],
+						"removeEdge": [
+							"function removeEdge(graph, u, v):",
+							"    if u in graph: graph[u] = [x for x in graph[u] if x != v]",
+							"    if v in graph: graph[v] = [x for x in graph[v] if x != u]"
+						],
+						"hasEdge": [
+							"function hasEdge(graph, u, v):",
+							"    return u in graph and v in graph[u]"
+						]
+					},
+					"usage": [
+						"Friendship networks",
+						"Road networks (undirected roads)",
+						"Collaboration graphs"
+					]
+				},
+				{
+					"name": "Weighted",
+					"description": "Edges carry a numeric weight/cost.",
+					"representation": "Adjacency list: map[u] → [(v, w), …]",
+					"pseudocode": {
+						"addEdge": [
+							"function addEdge(graph, u, v, w):",
+							"    if u not in graph: graph[u] = []",
+							"    graph[u].append((v, w))"
+						],
+						"updateWeight": [
+							"function updateWeight(graph, u, v, newW):",
+							"    if u in graph:",
+							"        for i, (node, _) in enumerate(graph[u]):",
+							"            if node == v:",
+							"                graph[u][i] = (v, newW)",
+							"                break"
+						],
+						"getWeight": [
+							"function getWeight(graph, u, v):",
+							"    if u in graph:",
+							"        for node, w in graph[u]:",
+							"            if node == v: return w",
+							"    return infinity"
+						]
+					},
+					"usage": [
+						"Shortest-path problems (Dijkstra, Bellman-Ford)",
+						"Network routing (OSPF, RIP)",
+						"Map applications (Google Maps)"
+					]
+				},
+				{
+					"name": "Unweighted",
+					"description": "All edges have implicit weight 1.",
+					"representation": "Same as Directed/Undirected without weight.",
+					"pseudocode": {
+						"addEdge": [
+							"function addEdge(graph, u, v):",
+							"    if u not in graph: graph[u] = []",
+							"    graph[u].append(v)"
+						]
+					},
+					"usage": [
+						"Simple connectivity checks",
+						"BFS/DFS traversal",
+						"Friend-of-a-friend problems"
+					]
+				},
+				{
+					"name": "Cyclic",
+					"description": "Contains at least one cycle.",
+					"detection": "DFS with parent tracking or topological sort failure.",
+					"pseudocode": {
+						"hasCycleDFS": [
+							"function hasCycle(graph):",
+							"    visited = set()",
+							"    recStack = set()",
+							"    for node in graph:",
+							"        if node not in visited:",
+							"            if dfsCycle(node, visited, recStack, graph):",
+							"                return true",
+							"    return false",
+							"",
+							"function dfsCycle(node, visited, recStack, graph):",
+							"    visited.add(node)",
+							"    recStack.add(node)",
+							"    for neigh in graph.get(node, []):",
+							"        if neigh not in visited:",
+							"            if dfsCycle(neigh, visited, recStack, graph):",
+							"                return true",
+							"        elif neigh in recStack:",
+							"            return true",
+							"    recStack.remove(node)",
+							"    return false"
+						]
+					},
+					"usage": [
+						"Deadlock detection",
+						"Feedback in control systems",
+						"Circuit analysis"
+					]
+				},
+				{
+					"name": "Acyclic",
+					"description": "No cycles – a DAG (Directed Acyclic Graph).",
+					"pseudocode": {
+						"topologicalSort": [
+							"function topologicalSort(graph):",
+							"    inDegree = {node:0 for node in graph}",
+							"    for node in graph:",
+							"        for neigh in graph[node]:",
+							"            inDegree[neigh] += 1",
+							"    queue = [node for node in inDegree if inDegree[node] == 0]",
+							"    order = []",
+							"    while queue:",
+							"        u = queue.pop(0)",
+							"        order.append(u)",
+							"        for neigh in graph.get(u, []):",
+							"            inDegree[neigh] -= 1",
+							"            if inDegree[neigh] == 0:",
+							"                queue.append(neigh)",
+							"    if len(order) == len(graph):",
+							"        return order",
+							"    else:",
+							"        return []  // cycle exists"
+						]
+					},
+					"usage": [
+						"Task scheduling (make, npm, Gradle)",
+						"Course prerequisite graphs",
+						"Data processing pipelines"
+					]
+				}
+			]
+		},
+		{
+			"category": "List",
+			"elements": [
+				{
+					"name": "Array Access",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function access(arr, index):",
+						"    if index < 0 or index >= length(arr):",
+						"        return error  // out of bounds",
+						"    return arr[index]"
+					],
+					"usage": [
+						"Random access in constant time",
+						"Cache lines in CPU",
+						"Matrix element lookup",
+						"Pixel access in image processing"
+					]
+				},
+				{
+					"name": "Array Insert",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insert(arr, index, value):",
+						"    if index < 0 or index > length(arr):",
+						"        return error",
+						"",
+						"    // Shift elements to the right",
+						"    for i = length(arr) - 1 down to index:",
+						"        arr[i + 1] = arr[i]",
+						"",
+						"    arr[index] = value",
+						"    // Array size increases by 1"
+					],
+					"usage": [
+						"Dynamic array insertion",
+						"List with frequent middle inserts",
+						"Undo/redo stack (with shift)",
+						"Implementing queue with array"
+					]
+				},
+				{
+					"name": "Array Delete",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function delete(arr, index):",
+						"    if index < 0 or index >= length(arr):",
+						"        return error",
+						"",
+						"    // Shift elements to the left",
+						"    for i = index to length(arr) - 2:",
+						"        arr[i] = arr[i + 1]",
+						"",
+						"    // Optionally: set last element to null",
+						"    // Array size decreases by 1"
+					],
+					"usage": [
+						"Removing element from middle",
+						"Dynamic array cleanup",
+						"Task scheduler removal",
+						"Memory compaction"
+					]
+				},
+				{
+					"name": "Array Linear Search",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function linearSearch(arr, value):",
+						"    for i = 0 to length(arr) - 1:",
+						"        if arr[i] == value:",
+						"            return i",
+						"",
+						"    return -1  // not found"
+					],
+					"usage": [
+						"Small or unsorted data",
+						"First occurrence lookup",
+						"Simple teaching example",
+						"Validation before sort"
+					]
+				},
+				{
+					"name": "LL Insert Head",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insertHead(head, value):",
+						"    newNode = new Node(value)",
+						"    newNode.next = head",
+						"    return newNode"
+					],
+					"usage": [
+						"Stack push operation",
+						"Undo/redo history",
+						"LRU cache (move-to-front)",
+						"Event log insertion"
+					]
+				},
+				{
+					"name": "LL Insert Tail",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insertTail(head, value):",
+						"    newNode = new Node(value)",
+						"    if head is null:",
+						"        return newNode",
+						"",
+						"    current = head",
+						"    while current.next is not null:",
+						"        current = current.next",
+						"",
+						"    current.next = newNode",
+						"    return head"
+					],
+					"usage": [
+						"Queue enqueue",
+						"Message queue append",
+						"Log file entries",
+						"Playlist song addition"
+					]
+				},
+				{
+					"name": "LL Delete Head",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function deleteHead(head):",
+						"    if head is null:",
+						"        return null",
+						"",
+						"    newHead = head.next",
+						"    // Optionally: free head",
+						"    return newHead"
+					],
+					"usage": [
+						"Stack pop operation",
+						"Task scheduler",
+						"Memory deallocation",
+						"Queue dequeue"
+					]
+				},
+				{
+					"name": "LL Delete Tail",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function deleteTail(head):",
+						"    if head is null:",
+						"        return null",
+						"    if head.next is null:",
+						"        return null",
+						"",
+						"    current = head",
+						"    while current.next.next is not null:",
+						"        current = current.next",
+						"",
+						"    current.next = null",
+						"    return head"
+					],
+					"usage": [
+						"Remove last log entry",
+						"Trim history",
+						"Clear recent actions",
+						"Playlist cleanup"
+					]
+				},
+				{
+					"name": "LL Search",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function search(head, value):",
+						"    current = head",
+						"    while current is not null:",
+						"        if current.data == value:",
+						"            return current",
+						"        current = current.next",
+						"",
+						"    return null"
+					],
+					"usage": [
+						"Find node by value",
+						"Check membership",
+						"Linked list traversal",
+						"Simple key lookup"
+					]
+				},
+				{
+					"name": "LL Access by Index",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function access(head, index):",
+						"    if index < 0:",
+						"        return error",
+						"",
+						"    current = head",
+						"    for i = 0 to index:",
+						"        if current is null:",
+						"            return error",
+						"        if i == index:",
+						"            return current.data",
+						"        current = current.next",
+						"",
+						"    return error"
+					],
+					"usage": [
+						"Random access (slow)",
+						"Legacy list iteration",
+						"Debugging/tracing",
+						"Teaching pointer traversal"
+					]
+				},
+				{
+					"name": "LL Insert Head",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insertHead(head, value):",
+						"    newNode = new Node(value)",
+						"    newNode.next = head",
+						"    return newNode"
+					],
+					"usage": [
+						"Stack push operation",
+						"Undo/redo history",
+						"LRU cache (move-to-front)",
+						"Event log insertion"
+					]
+				},
+				{
+					"name": "LL Insert Tail",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insertTail(head, value):",
+						"    newNode = new Node(value)",
+						"    if head is null:",
+						"        return newNode",
+						"",
+						"    current = head",
+						"    while current.next is not null:",
+						"        current = current.next",
+						"",
+						"    current.next = newNode",
+						"    return head"
+					],
+					"usage": [
+						"Queue enqueue",
+						"Message queue append",
+						"Log file entries",
+						"Playlist song addition"
+					]
+				},
+				{
+					"name": "LL Insert at Index",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insertAtIndex(head, index, value):",
+						"    if index < 0: return error",
+						"",
+						"    newNode = new Node(value)",
+						"",
+						"    if index == 0:",
+						"        newNode.next = head",
+						"        return newNode",
+						"",
+						"    current = head",
+						"    for i = 0 to index-1:",
+						"        if current is null: return error",
+						"        current = current.next",
+						"",
+						"    newNode.next = current.next",
+						"    current.next = newNode",
+						"    return head"
+					],
+					"usage": [
+						"Middle insertion in editor",
+						"Dynamic playlist reordering",
+						"Task list insertion",
+						"Undo buffer with position"
+					]
+				},
+				{
+					"name": "LL Delete Head",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function deleteHead(head):",
+						"    if head is null:",
+						"        return null",
+						"",
+						"    newHead = head.next",
+						"    return newHead"
+					],
+					"usage": [
+						"Stack pop operation",
+						"Task scheduler",
+						"Memory deallocation",
+						"Queue dequeue"
+					]
+				},
+				{
+					"name": "LL Delete Tail",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function deleteTail(head):",
+						"    if head is null:",
+						"        return null",
+						"    if head.next is null:",
+						"        return null",
+						"",
+						"    current = head",
+						"    while current.next.next is not null:",
+						"        current = current.next",
+						"",
+						"    current.next = null",
+						"    return head"
+					],
+					"usage": [
+						"Remove last log entry",
+						"Trim history",
+						"Clear recent actions",
+						"Playlist cleanup"
+					]
+				},
+				{
+					"name": "LL Remove at Index",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function removeAtIndex(head, index):",
+						"    if index < 0 or head is null: return error",
+						"",
+						"    if index == 0:",
+						"        return head.next",
+						"",
+						"    current = head",
+						"    for i = 0 to index-1:",
+						"        if current.next is null: return error",
+						"        current = current.next",
+						"",
+						"    if current.next is null: return error",
+						"    current.next = current.next.next",
+						"    return head"
+					],
+					"usage": [
+						"Remove task by position",
+						"Editor delete line",
+						"Undo step removal",
+						"Dynamic list cleanup"
+					]
+				},
+				{
+					"name": "LL Reverse",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function reverse(head):",
+						"    prev = null",
+						"    current = head",
+						"",
+						"    while current is not null:",
+						"        next = current.next",
+						"        current.next = prev",
+						"        prev = current",
+						"        current = next",
+						"",
+						"    return prev"
+					],
+					"usage": [
+						"Reverse print order",
+						"Undo stack reversal",
+						"Palindrome check (with fast/slow)",
+						"History replay backward"
+					]
+				},
+				{
+					"name": "LL Search",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function search(head, value):",
+						"    current = head",
+						"    while current is not null:",
+						"        if current.data == value:",
+						"            return current",
+						"        current = current.next",
+						"",
+						"    return null"
+					],
+					"usage": [
+						"Find node by value",
+						"Check membership",
+						"Linked list traversal",
+						"Simple key lookup"
+					]
+				},
+				{
+					"name": "LL Access by Index",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function access(head, index):",
+						"    if index < 0:",
+						"        return error",
+						"",
+						"    current = head",
+						"    for i = 0 to index:",
+						"        if current is null:",
+						"            return error",
+						"        if i == index:",
+						"            return current.data",
+						"        current = current.next",
+						"",
+						"    return error"
+					],
+					"usage": [
+						"Random access (slow)",
+						"Legacy list iteration",
+						"Debugging/tracing",
+						"Teaching pointer traversal"
+					]
+				},
+				{
+					"name": "DLL Insert Head",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insertHead(head, value):",
+						"    newNode = new Node(value)",
+						"    newNode.next = head",
+						"",
+						"    if head is not null:",
+						"        head.prev = newNode",
+						"",
+						"    return newNode"
+					],
+					"usage": [
+						"Browser back button (push state)",
+						"Undo stack",
+						"LRU cache move-to-front",
+						"Event history"
+					]
+				},
+				{
+					"name": "DLL Insert Tail",
+					"complexity": {
+						"time": "O(1) with tail pointer, O(n) without",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insertTail(head, value):",
+						"    newNode = new Node(value)",
+						"",
+						"    if head is null:",
+						"        return newNode",
+						"",
+						"    current = head",
+						"    while current.next is not null:",
+						"        current = current.next",
+						"",
+						"    current.next = newNode",
+						"    newNode.prev = current",
+						"    return head"
+					],
+					"usage": [
+						"Music playlist append",
+						"Log entries",
+						"Message queue",
+						"Forward navigation"
+					]
+				},
+				{
+					"name": "DLL Delete Head",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function deleteHead(head):",
+						"    if head is null:",
+						"        return null",
+						"",
+						"    newHead = head.next",
+						"    if newHead is not null:",
+						"        newHead.prev = null",
+						"",
+						"    return newHead"
+					],
+					"usage": [
+						"Browser go back",
+						"Undo operation",
+						"Remove recent task",
+						"Cache eviction"
+					]
+				},
+				{
+					"name": "DLL Delete Tail",
+					"complexity": {
+						"time": "O(n) without tail, O(1) with",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function deleteTail(head):",
+						"    if head is null:",
+						"        return null",
+						"    if head.next is null:",
+						"        return null",
+						"",
+						"    current = head",
+						"    while current.next.next is not null:",
+						"        current = current.next",
+						"",
+						"    current.next = null",
+						"    return head"
+					],
+					"usage": [
+						"Clear last playlist song",
+						"Trim log",
+						"Remove oldest entry",
+						"History cleanup"
+					]
+				},
+				{
+					"name": "DLL Delete Node (by ref)",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function deleteNode(node):",
+						"    if node is null: return",
+						"",
+						"    if node.prev is not null:",
+						"        node.prev.next = node.next",
+						"",
+						"    if node.next is not null:",
+						"        node.next.prev = node.prev",
+						"",
+						"    // Return new head if needed",
+						"    // (caller must track head)"
+					],
+					"usage": [
+						"LRU cache removal",
+						"Playlist skip",
+						"Task cancellation",
+						"Memory-safe delete"
+					]
+				},
+				{
+					"name": "DLL Search",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function search(head, value):",
+						"    current = head",
+						"    while current is not null:",
+						"        if current.data == value:",
+						"            return current",
+						"        current = current.next",
+						"",
+						"    return null"
+					],
+					"usage": [
+						"Find song in playlist",
+						"Locate task",
+						"Check existence",
+						"Pointer lookup"
+					]
+				},
+				{
+					"name": "DLL Reverse",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function reverse(head):",
+						"    current = head",
+						"    temp = null",
+						"",
+						"    while current is not null:",
+						"        temp = current.prev",
+						"        current.prev = current.next",
+						"        current.next = temp",
+						"        current = current.prev",
+						"",
+						"    if temp is not null:",
+						"        head = temp.prev",
+						"",
+						"    return head"
+					],
+					"usage": [
+						"Reverse playlist order",
+						"History replay backward",
+						"Undo stack reversal",
+						"Palindrome check"
+					]
+				},
+				{
+					"name": "CLL Insert Head",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insertHead(head, value):",
+						"    newNode = new Node(value)",
+						"",
+						"    if head is null:",
+						"        newNode.next = newNode",
+						"        return newNode",
+						"",
+						"    newNode.next = head.next",
+						"    head.next = newNode",
+						"",
+						"    // Swap data to keep 'head' as logical head",
+						"    temp = head.data",
+						"    head.data = newNode.data",
+						"    newNode.data = temp",
+						"",
+						"    return head"
+					],
+					"usage": [
+						"Round-robin task insertion",
+						"Card game deck",
+						"Music loop mode",
+						"Cycle detection"
+					]
+				},
+				{
+					"name": "CLL Insert Tail",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insertTail(head, value):",
+						"    newNode = new Node(value)",
+						"",
+						"    if head is null:",
+						"        newNode.next = newNode",
+						"        return newNode",
+						"",
+						"    newNode.next = head.next",
+						"    head.next = newNode",
+						"    head = newNode",
+						"    return head"
+					],
+					"usage": [
+						"Add player to game circle",
+						"Append to ring buffer",
+						"Task scheduler cycle",
+						"Loop buffer"
+					]
+				},
+				{
+					"name": "CLL Delete Head",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function deleteHead(head):",
+						"    if head is null:",
+						"        return null",
+						"    if head.next == head:",
+						"        return null",
+						"",
+						"    head.data = head.next.data",
+						"    head.next = head.next.next",
+						"    return head"
+					],
+					"usage": [
+						"Remove current player",
+						"Round-robin skip",
+						"Cycle buffer pop",
+						"Music skip"
+					]
+				},
+				{
+					"name": "CLL Search",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function search(head, value):",
+						"    if head is null: return null",
+						"",
+						"    current = head.next",
+						"    do:",
+						"        if current.data == value:",
+						"            return current",
+						"        current = current.next",
+						"    while current != head.next",
+						"",
+						"    return null"
+					],
+					"usage": [
+						"Find player in game",
+						"Check cycle membership",
+						"Locate buffer entry",
+						"Round-robin lookup"
+					]
+				},
+				{
+					"name": "CLL Traverse",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function traverse(head):",
+						"    if head is null: return",
+						"",
+						"    current = head.next",
+						"    do:",
+						"        print(current.data)",
+						"        current = current.next",
+						"    while current != head.next"
+					],
+					"usage": [
+						"Print full cycle",
+						"Debug ring buffer",
+						"Display playlist loop",
+						"Cycle detection (Floyd)"
+					]
+				}
+			]
+		},
+		{
+			"category": "Stack",
+			"elements": [
+				{
+					"name": "Array Stack Push",
+					"complexity": {
+						"time": "O(1) amortized",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function push(stack, value):",
+						"    stack.append(value)  // or stack[top++] = value",
+						"    return stack"
+					],
+					"usage": [
+						"Function call stack",
+						"Expression evaluation (postfix)",
+						"Undo in text editor",
+						"Depth-first search (DFS)"
+					]
+				},
+				{
+					"name": "Array Stack Pop",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function pop(stack):",
+						"    if isEmpty(stack):",
+						"        return error",
+						"    return stack.pop()  // or return stack[--top]"
+					],
+					"usage": [
+						"Return from function",
+						"Backtracking step",
+						"Undo last action",
+						"DFS backtrack"
+					]
+				},
+				{
+					"name": "Array Stack Peek",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function peek(stack):",
+						"    if isEmpty(stack):",
+						"        return error",
+						"    return stack[-1]"
+					],
+					"usage": [
+						"Check next operation",
+						"Validate parentheses",
+						"Preview undo",
+						"Lookahead in parsing"
+					]
+				},
+				{
+					"name": "LL Stack Push",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function push(head, value):",
+						"    newNode = new Node(value)",
+						"    newNode.next = head",
+						"    return newNode"
+					],
+					"usage": [
+						"Dynamic memory stack",
+						"Recursive simulation",
+						"Backtracking with large data",
+						"Undo with metadata"
+					]
+				},
+				{
+					"name": "LL Stack Pop",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function pop(head):",
+						"    if head is null:",
+						"        return error, null",
+						"",
+						"    value = head.data",
+						"    newHead = head.next",
+						"    return value, newHead"
+					],
+					"usage": [
+						"Remove top frame",
+						"Free memory in recursion",
+						"Backtrack state",
+						"Undo with cleanup"
+					]
+				}
+			]
+		},
+		{
+			"category": "Queue",
+			"elements": [
+				{
+					"name": "Array Queue Enqueue",
+					"complexity": {
+						"time": "O(1) amortized",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function enqueue(queue, front, rear, value, capacity):",
+						"    if (rear + 1) % capacity == front:",
+						"        return overflow",
+						"",
+						"    rear = (rear + 1) % capacity",
+						"    queue[rear] = value",
+						"    return front, rear"
+					],
+					"usage": [
+						"Circular buffer (audio/video)",
+						"Task scheduling (FIFO)",
+						"Printer job queue",
+						"BFS level order"
+					]
+				},
+				{
+					"name": "Array Queue Dequeue",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function dequeue(queue, front, rear, capacity):",
+						"    if front == rear:",
+						"        return underflow",
+						"",
+						"    front = (front + 1) % capacity",
+						"    value = queue[front]",
+						"    return value, front, rear"
+					],
+					"usage": [
+						"Process next task",
+						"BFS traversal",
+						"Stream processing",
+						"Message consumption"
+					]
+				},
+				{
+					"name": "LL Queue Enqueue",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function enqueue(front, rear, value):",
+						"    newNode = new Node(value)",
+						"",
+						"    if rear is null:",
+						"        front = rear = newNode",
+						"    else:",
+						"        rear.next = newNode",
+						"        rear = newNode",
+						"",
+						"    return front, rear"
+					],
+					"usage": [
+						"Message queue (RabbitMQ style)",
+						"Print spooling",
+						"Event-driven systems",
+						"Dynamic job queue"
+					]
+				},
+				{
+					"name": "LL Queue Dequeue",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function dequeue(front, rear):",
+						"    if front is null:",
+						"        return underflow, null, null",
+						"",
+						"    value = front.data",
+						"    front = front.next",
+						"",
+						"    if front is null:",
+						"        rear = null",
+						"",
+						"    return value, front, rear"
+					],
+					"usage": [
+						"Process oldest message",
+						"Job completion",
+						"Task execution",
+						"Stream consumer"
+					]
+				},
+				{
+					"name": "Priority Queue Insert",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insert(heap, value):",
+						"    heap.append(value)",
+						"    siftUp(heap, len(heap)-1)"
+					],
+					"usage": [
+						"Dijkstra’s algorithm",
+						"A* pathfinding",
+						"Event scheduling",
+						"Job priority scheduler"
+					]
+				},
+				{
+					"name": "Priority Queue Extract Min",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function extractMin(heap):",
+						"    if len(heap) == 0:",
+						"        return error",
+						"",
+						"    minVal = heap[0]",
+						"    last = heap.pop()",
+						"",
+						"    if len(heap) > 0:",
+						"        heap[0] = last",
+						"        siftDown(heap, 0)",
+						"",
+						"    return minVal"
+					],
+					"usage": [
+						"Get next shortest path",
+						"Process highest priority task",
+						"Huffman coding",
+						"Discrete event simulation"
+					]
+				},
+				{
+					"name": "Deque Add Front",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function addFront(deque, value):",
+						"    deque.insert(0, value)  // or LL head insert",
+						"    return deque"
+					],
+					"usage": [
+						"Sliding window max",
+						"Palindrome extension",
+						"Work-stealing scheduler",
+						"Browser history push"
+					]
+				},
+				{
+					"name": "Deque Add Rear",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function addRear(deque, value):",
+						"    deque.append(value)",
+						"    return deque"
+					],
+					"usage": [
+						"Append log entry",
+						"Output buffer",
+						"Task queue tail",
+						"History forward"
+					]
+				},
+				{
+					"name": "Deque Remove Front",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function removeFront(deque):",
+						"    if isEmpty(deque):",
+						"        return error",
+						"    return deque.pop(0)"
+					],
+					"usage": [
+						"Consume input",
+						"Process next task",
+						"Sliding window update",
+						"Undo last"
+					]
+				},
+				{
+					"name": "Deque Remove Rear",
+					"complexity": {
+						"time": "O(1)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function removeRear(deque):",
+						"    if isEmpty(deque):",
+						"        return error",
+						"    return deque.pop()"
+					],
+					"usage": [
+						"Remove last log",
+						"Cancel recent task",
+						"Trim buffer",
+						"Redo pop"
+					]
+				}
+			]
+		}
+	],
+	"algorithm_categories": [
+		{
+			"category": "Sorting Algorithms",
+			"algorithms": [
+				{
+					"name": "Quick Sort",
+					"complexity": {
+						"time": "O(n log n) average, O(n^2) worst",
+						"space": "O(log n) stack space"
+					},
+					"pseudocode": [
+						"function quickSort(arr, low, high):",
+						"    if low < high:",
+						"        pivotIndex = partition(arr, low, high)",
+						"        quickSort(arr, low, pivotIndex - 1)",
+						"        quickSort(arr, pivotIndex + 1, high)",
+						"",
+						"function partition(arr, low, high):",
+						"    pivot = arr[high]",
+						"    i = low - 1",
+						"    for j = low to high - 1:",
+						"        if arr[j] < pivot:",
+						"            i++",
+						"            swap(arr[i], arr[j])",
+						"    swap(arr[i + 1], arr[high])",
+						"    return i + 1"
+					],
+					"usage": [
+						"In-memory sorting (fastest in practice)",
+						"Standard library sort (e.g., C++ std::sort)",
+						"Quickselect for finding k-th element"
+					]
+				},
+				{
+					"name": "Merge Sort",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function mergeSort(arr):",
+						"    if len(arr) <= 1:",
+						"        return arr",
+						"    mid = len(arr) // 2",
+						"    left = mergeSort(arr[0:mid])",
+						"    right = mergeSort(arr[mid:])",
+						"    return merge(left, right)",
+						"",
+						"function merge(left, right):",
+						"    result = []",
+						"    i = j = 0",
+						"    while i < len(left) and j < len(right):",
+						"        if left[i] <= right[j]:",
+						"            result.append(left[i])",
+						"            i++",
+						"        else:",
+						"            result.append(right[j])",
+						"            j++",
+						"    result += left[i:]",
+						"    result += right[j:]",
+						"    return result"
+					],
+					"usage": [
+						"External sorting (large datasets on disk)",
+						"Stable sorting requirement",
+						"Linked list sorting"
+					]
+				},
+				{
+					"name": "Heap Sort",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function heapSort(arr):",
+						"    n = len(arr)",
+						"    for i = n // 2 - 1 downto 0:",
+						"        heapify(arr, n, i)",
+						"    for i = n - 1 downto 0:",
+						"        swap(arr[0], arr[i])",
+						"        heapify(arr, i, 0)",
+						"",
+						"function heapify(arr, n, i):",
+						"    largest = i",
+						"    left = 2 * i + 1",
+						"    right = 2 * i + 2",
+						"    if left < n and arr[left] > arr[largest]:",
+						"        largest = left",
+						"    if right < n and arr[right] > arr[largest]:",
+						"        largest = right",
+						"    if largest != i:",
+						"        swap(arr[i], arr[largest])",
+						"        heapify(arr, n, largest)"
+					],
+					"usage": [
+						"Priority queue operations",
+						"Heap-based scheduling",
+						"In-place sorting with guaranteed O(n log n)"
+					]
+				},
+				{
+					"name": "Bubble Sort",
+					"complexity": {
+						"time": "O(n^2)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function bubbleSort(arr):",
+						"    n = len(arr)",
+						"    for i = 0 to n - 1:",
+						"        for j = 0 to n - i - 2:",
+						"            if arr[j] > arr[j + 1]:",
+						"                swap(arr[j], arr[j + 1])",
+						"    return arr"
+					],
+					"usage": [
+						"Educational purposes (simple to understand)",
+						"Detecting if array is already sorted",
+						"Small datasets or nearly sorted data"
+					]
+				},
+				{
+					"name": "Insertion Sort",
+					"complexity": {
+						"time": "O(n^2)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function insertionSort(arr):",
+						"    for i = 1 to len(arr) - 1:",
+						"        key = arr[i]",
+						"        j = i - 1",
+						"        while j >= 0 and arr[j] > key:",
+						"            arr[j + 1] = arr[j]",
+						"            j--",
+						"        arr[j + 1] = key",
+						"    return arr"
+					],
+					"usage": [
+						"Small or nearly sorted arrays",
+						"Online sorting (data arrives in stream)",
+						"Adaptive sorting"
+					]
+				},
+				{
+					"name": "Selection Sort",
+					"complexity": {
+						"time": "O(n^2)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function selectionSort(arr):",
+						"    for i = 0 to len(arr) - 1:",
+						"        minIndex = i",
+						"        for j = i + 1 to len(arr):",
+						"            if arr[j] < arr[minIndex]:",
+						"                minIndex = j",
+						"        swap(arr[i], arr[minIndex])",
+						"    return arr"
+					],
+					"usage": [
+						"Minimizing number of swaps",
+						"Teaching basic sorting concepts",
+						"Small datasets with expensive swaps"
+					]
+				}
+			]
+		},
+		{
+			"category": "Searching Algorithms",
+			"algorithms": [
+				{
+					"name": "Binary Search",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(1) iterative, O(log n) recursive"
+					},
+					"pseudocode": [
+						"function binarySearch(arr, target):",
+						"    left = 0",
+						"    right = len(arr) - 1",
+						"    while left <= right:",
+						"        mid = left + (right - left) // 2",
+						"        if arr[mid] == target:",
+						"            return mid",
+						"        else if arr[mid] < target:",
+						"            left = mid + 1",
+						"        else:",
+						"            right = mid - 1",
+						"    return -1"
+					],
+					"usage": [
+						"Finding element in sorted array",
+						"Lower/upper bound in ordered data",
+						"Database index lookup",
+						"Binary lifting in trees"
+					]
+				},
+				{
+					"name": "Linear Search",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function linearSearch(arr, target):",
+						"    for i = 0 to len(arr) - 1:",
+						"        if arr[i] == target:",
+						"            return i",
+						"    return -1"
+					],
+					"usage": [
+						"Small or unsorted arrays",
+						"First occurrence search",
+						"Simple teaching example",
+						"Linked list traversal"
+					]
+				},
+				{
+					"name": "Graph DFS",
+					"complexity": {
+						"time": "O(V + E)",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function DFS(graph, start):",
+						"    visited = set()",
+						"    stack = [start]",
+						"    while stack is not empty:",
+						"        node = stack.pop()",
+						"        if node not in visited:",
+						"            visited.add(node)",
+						"            for neighbor in graph[node]:",
+						"                if neighbor not in visited:",
+						"                    stack.append(neighbor)",
+						"    return visited"
+					],
+					"usage": [
+						"Topological sorting",
+						"Detecting cycles in graph",
+						"Path finding in mazes",
+						"Connected components"
+					]
+				},
+				{
+					"name": "Graph BFS",
+					"complexity": {
+						"time": "O(V + E)",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function BFS(graph, start):",
+						"    visited = set()",
+						"    queue = Queue()",
+						"    queue.enqueue(start)",
+						"    visited.add(start)",
+						"    while queue is not empty:",
+						"        node = queue.dequeue()",
+						"        for neighbor in graph[node]:",
+						"            if neighbor not in visited:",
+						"                visited.add(neighbor)",
+						"                queue.enqueue(neighbor)",
+						"    return visited"
+					],
+					"usage": [
+						"Shortest path in unweighted graph",
+						"Level-order traversal in trees",
+						"Flood fill in image processing",
+						"Social network friend suggestions"
+					]
+				}
+			]
+		},
+		{
+			"category": "Tree Traversal",
+			"algorithms": [
+				{
+					"name": "Inorder",
+					"description": "Left → Root → Right (sorted order for BST).",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(h) recursive, O(1) Morris traversal"
+					},
+					"pseudocode": [
+						"function inorder(root):",
+						"    if root is None: return",
+						"    inorder(root.left)",
+						"    visit(root)  // print or process",
+						"    inorder(root.right)"
+					],
+					"usage": [
+						"BST: Print sorted order",
+						"Expression trees: Evaluate infix",
+						"Syntax tree parsing"
+					]
+				},
+				{
+					"name": "Preorder",
+					"description": "Root → Left → Right (copy tree structure).",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(h) recursive"
+					},
+					"pseudocode": [
+						"function preorder(root):",
+						"    if root is None: return",
+						"    visit(root)",
+						"    preorder(root.left)",
+						"    preorder(root.right)"
+					],
+					"usage": [
+						"Tree serialization/deserialization",
+						"Copying trees",
+						"Prefix notation evaluation"
+					]
+				},
+				{
+					"name": "Postorder",
+					"description": "Left → Right → Root (delete tree safely).",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(h) recursive"
+					},
+					"pseudocode": [
+						"function postorder(root):",
+						"    if root is None: return",
+						"    postorder(root.left)",
+						"    postorder(root.right)",
+						"    visit(root)"
+					],
+					"usage": [
+						"Tree deletion (post-process children)",
+						"Postfix notation evaluation",
+						"Directory size calculation"
+					]
+				},
+				{
+					"name": "Level Order",
+					"description": "BFS: Root → Level 1 → Level 2 → … (breadth-wise).",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(w) where w is max width"
+					},
+					"pseudocode": [
+						"function levelOrder(root):",
+						"    if root is None: return",
+						"    queue = [root]",
+						"    while queue:",
+						"        node = queue.pop(0)",
+						"        visit(node)",
+						"        if node.left: queue.append(node.left)",
+						"        if node.right: queue.append(node.right)"
+					],
+					"usage": [
+						"Print tree level by level",
+						"Zigzag traversal (alternate directions)",
+						"Shortest path in unweighted tree"
+					]
+				}
+			]
+		},
+		{
+			"category": "Graph Traversal",
+			"algorithms": [
+				{
+					"name": "Depth-First Search (DFS)",
+					"description": "Explore as far as possible along each branch before backtracking.",
+					"complexity": {
+						"time": "O(V + E)",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function DFS(graph, start):",
+						"    visited = set()",
+						"    stack = [start]",
+						"    while stack:",
+						"        node = stack.pop()",
+						"        if node not in visited:",
+						"            visited.add(node)",
+						"            visit(node)",
+						"            for neigh in reversed(graph[node]):  // post-order",
+						"                if neigh not in visited:",
+						"                    stack.append(neigh)",
+						"    return visited",
+						"",
+						"// Recursive version:",
+						"function DFSRecursive(node, visited, graph):",
+						"    visited.add(node)",
+						"    visit(node)",
+						"    for neigh in graph[node]:",
+						"        if neigh not in visited:",
+						"            DFSRecursive(neigh, visited, graph)"
+					],
+					"usage": [
+						"Path finding in mazes",
+						"Cycle detection",
+						"Topological sorting (DAGs)"
+					]
+				},
+				{
+					"name": "Breadth-First Search (BFS)",
+					"description": "Explore level by level, nearest nodes first.",
+					"complexity": {
+						"time": "O(V + E)",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function BFS(graph, start):",
+						"    visited = set()",
+						"    queue = deque([start])",
+						"    visited.add(start)",
+						"    while queue:",
+						"        node = queue.popleft()",
+						"        visit(node)",
+						"        for neigh in graph[node]:",
+						"            if neigh not in visited:",
+						"                visited.add(neigh)",
+						"                queue.append(neigh)",
+						"    return visited"
+					],
+					"usage": [
+						"Shortest path in unweighted graphs",
+						"Social network degrees of separation",
+						"Level-order graph processing"
+					]
+				}
+			]
+		},
+		{
+			"category": "Shortest Path Algorithms",
+			"algorithms": [
+				{
+					"name": "Dijkstra's Algorithm",
+					"complexity": {
+						"time": "O((V + E) log V) with a priority queue",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function dijkstra(graph, start):",
+						"    dist = array of size V, initialized to INFINITY",
+						"    dist[start] = 0",
+						"    pq = MinHeap()",
+						"    pq.insert((0, start))",
+						"",
+						"    while pq is not empty:",
+						"        (currentDist, u) = pq.extractMin()",
+						"        if currentDist > dist[u]: continue",
+						"",
+						"        for (v, weight) in graph[u]:",
+						"            if dist[v] > dist[u] + weight:",
+						"                dist[v] = dist[u] + weight",
+						"                pq.insert((dist[v], v))",
+						"",
+						"    return dist"
+					],
+					"usage": [
+						"GPS navigation (road networks)",
+						"Network routing (OSPF)",
+						"Game pathfinding (non-negative weights)",
+						"Robotics motion planning"
+					]
+				},
+				{
+					"name": "Bellman-Ford Algorithm",
+					"complexity": {
+						"time": "O(V * E)",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function bellmanFord(graph, start):",
+						"    dist = array of size V, initialized to INFINITY",
+						"    dist[start] = 0",
+						"",
+						"    for i = 1 to V - 1:",
+						"        for (u, v, weight) in graph.edges:",
+						"            if dist[u] + weight < dist[v]:",
+						"                dist[v] = dist[u] + weight",
+						"",
+						"    for (u, v, weight) in graph.edges:",
+						"        if dist[u] + weight < dist[v]:",
+						"            return 'Negative cycle detected'",
+						"",
+						"    return dist"
+					],
+					"usage": [
+						"Detecting negative cycles",
+						"Currency exchange arbitrage",
+						"Difference constraints in LP",
+						"Routing with negative weights"
+					]
+				},
+				{
+					"name": "A* Search Algorithm",
+					"complexity": {
+						"time": "O(b^d), where b is branching factor and d is depth of solution",
+						"space": "O(b^d)"
+					},
+					"pseudocode": [
+						"function A*(start, goal):",
+						"    openSet = PriorityQueue()",
+						"    openSet.add(start, heuristic(start, goal))",
+						"    cameFrom = {}",
+						"    gScore = {start: 0}",
+						"    fScore = {start: heuristic(start, goal)}",
+						"",
+						"    while openSet is not empty:",
+						"        current = openSet.pop()",
+						"        if current == goal:",
+						"            return reconstructPath(cameFrom, current)",
+						"",
+						"        for neighbor in neighbors(current):",
+						"            tentative_g = gScore[current] + dist(current, neighbor)",
+						"            if tentative_g < gScore[neighbor] or neighbor not in gScore:",
+						"                cameFrom[neighbor] = current",
+						"                gScore[neighbor] = tentative_g",
+						"                fScore[neighbor] = tentative_g + heuristic(neighbor, goal)",
+						"                openSet.addOrUpdate(neighbor, fScore[neighbor])",
+						"",
+						"    return failure"
+					],
+					"usage": [
+						"Pathfinding in games (e.g., AI navigation)",
+						"Robotics motion planning",
+						"GPS navigation systems",
+						"Optimal path in heuristic search"
+					]
+				},
+				{
+					"name": "Floyd-Warshall Algorithm",
+					"complexity": {
+						"time": "O(V^3)",
+						"space": "O(V^2)"
+					},
+					"pseudocode": [
+						"function FloydWarshall(graph):",
+						"    V = number of vertices",
+						"    dist = 2D array [V][V]",
+						"",
+						"    for i = 0 to V-1:",
+						"        for j = 0 to V-1:",
+						"            if i == j:",
+						"                dist[i][j] = 0",
+						"            else if edge(i,j) exists:",
+						"                dist[i][j] = weight(i,j)",
+						"            else:",
+						"                dist[i][j] = INFINITY",
+						"",
+						"    for k = 0 to V-1:",
+						"        for i = 0 to V-1:",
+						"            for j = 0 to V-1:",
+						"                if dist[i][k] + dist[k][j] < dist[i][j]:",
+						"                    dist[i][j] = dist[i][k] + dist[k][j]",
+						"",
+						"    return dist"
+					],
+					"usage": [
+						"All-pairs shortest paths",
+						"Network routing tables",
+						"Transitive closure of graph",
+						"Graph diameter computation"
+					]
+				}
+			]
+		},
+		{
+			"category": "Minimum Spanning Tree Algorithms",
+			"algorithms": [
+				{
+					"name": "Kruskal's Algorithm",
+					"complexity": {
+						"time": "O(E log E) or O(E log V)",
+						"space": "O(V + E)"
+					},
+					"pseudocode": [
+						"function Kruskal(graph):",
+						"    MST = empty set",
+						"    UF = Union-Find initialized with V vertices",
+						"    sort all edges by weight (ascending)",
+						"",
+						"    for each edge (u, v, w) in sorted edges:",
+						"        if UF.find(u) != UF.find(v):",
+						"            add (u, v, w) to MST",
+						"            UF.union(u, v)",
+						"",
+						"    return MST"
+					],
+					"usage": [
+						"Network design (e.g., fiber optic cables)",
+						"Clustering in machine learning",
+						"Image segmentation"
+					]
+				},
+				{
+					"name": "Prim's Algorithm",
+					"complexity": {
+						"time": "O(E log V) with binary heap",
+						"space": "O(V + E)"
+					},
+					"pseudocode": [
+						"function Prim(graph, start):",
+						"    MST = empty set",
+						"    priorityQueue = {start} with key[start] = 0",
+						"    key[v] = infinity for all v, parent[v] = null",
+						"",
+						"    while priorityQueue is not empty:",
+						"        u = extract min from priorityQueue",
+						"        for each neighbor v of u:",
+						"            if v in priorityQueue and weight(u,v) < key[v]:",
+						"                parent[v] = u",
+						"                key[v] = weight(u,v)",
+						"                update priority of v",
+						"",
+						"    return MST from parent array"
+					],
+					"usage": [
+						"Minimum spanning tree in dense graphs",
+						"Game map generation (e.g., connecting cities)",
+						"Approximating TSP"
+					]
+				},
+				{
+					"name": "Borůvka's Algorithm",
+					"complexity": {
+						"time": "O(E log V)",
+						"space": "O(V + E)"
+					},
+					"pseudocode": [
+						"function Boruvka(graph):",
+						"    MST = empty set",
+						"    components = {0}, {1}, ..., {V-1}",
+						"",
+						"    while number of components > 1:",
+						"        for each component C:",
+						"            find cheapest edge (u,v) where u in C, v not in C",
+						"            add (u,v) to MST",
+						"        merge components connected by MST edges",
+						"",
+						"    return MST"
+					],
+					"usage": [
+						"Parallel/distributed MST computation",
+						"Large-scale network optimization",
+						"GPU-accelerated graph algorithms"
+					]
+				}
+			]
+		},
+		{
+			"category": "Dynamic Programming",
+			"algorithms": [
+				{
+					"name": "0/1 Knapsack Problem",
+					"complexity": {
+						"time": "O(n * W), where n is the number of items and W is the capacity",
+						"space": "O(n * W)"
+					},
+					"pseudocode": [
+						"function knapsack(weights, values, W):",
+						"    n = len(values)",
+						"    dp = 2D array (n+1) x (W+1)",
+						"",
+						"    for i = 0 to n:",
+						"        for w = 0 to W:",
+						"            if i == 0 or w == 0:",
+						"                dp[i][w] = 0",
+						"            else if weights[i-1] <= w:",
+						"                dp[i][w] = max(values[i-1] + dp[i-1][w - weights[i-1]], dp[i-1][w])",
+						"            else:",
+						"                dp[i][w] = dp[i-1][w]",
+						"",
+						"    return dp[n][W]"
+					],
+					"usage": [
+						"Resource allocation with constraints",
+						"Cargo loading optimization",
+						"Investment portfolio selection",
+						"Password cracking (meet-in-the-middle)"
+					]
+				},
+				{
+					"name": "Fibonacci Sequence (Memoization) (Recursive)",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function fibonacci(n, memo = {}):",
+						"    if n in memo:",
+						"        return memo[n]",
+						"    if n <= 1:",
+						"        return n",
+						"",
+						"    memo[n] = fibonacci(n-1, memo) + fibonacci(n-2, memo)",
+						"    return memo[n]"
+					],
+					"usage": [
+						"Top-down DP template",
+						"Recursive problems with overlapping subproblems",
+						"Dynamic programming with caching",
+						"Teaching recursion + memoization"
+					]
+				},
+				{
+					"name": "Fibonacci Sequence (Tabulation) (Iterative)",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function fibonacci(n):",
+						"    if n <= 1:",
+						"        return n",
+						"",
+						"    dp = array of size (n+1)",
+						"    dp[0] = 0",
+						"    dp[1] = 1",
+						"",
+						"    for i = 2 to n:",
+						"        dp[i] = dp[i-1] + dp[i-2]",
+						"",
+						"    return dp[n]"
+					],
+					"usage": [
+						"Bottom-up DP approach",
+						"Space-optimized DP (can reduce to O(1))",
+						"High-performance numerical computation",
+						"Large Fibonacci numbers"
+					]
+				},
+				{
+					"name": "Longest Common Subsequence",
+					"complexity": {
+						"time": "O(m * n), where m and n are the lengths of the sequences",
+						"space": "O(m * n)"
+					},
+					"pseudocode": [
+						"function LCS(X, Y):",
+						"    m = len(X)",
+						"    n = len(Y)",
+						"    dp = 2D array (m+1) x (n+1)",
+						"",
+						"    for i = 0 to m:",
+						"        for j = 0 to n:",
+						"            if i == 0 or j == 0:",
+						"                dp[i][j] = 0",
+						"            else if X[i-1] == Y[j-1]:",
+						"                dp[i][j] = dp[i-1][j-1] + 1",
+						"            else:",
+						"                dp[i][j] = max(dp[i-1][j], dp[i][j-1])",
+						"",
+						"    return dp[m][n]"
+					],
+					"usage": [
+						"Diff utility in version control (git)",
+						"DNA sequence alignment",
+						"Plagiarism detection",
+						"Spell checking (edit distance variant)"
+					]
+				},
+				{
+					"name": "Matrix Chain Multiplication",
+					"complexity": {
+						"time": "O(n^3)",
+						"space": "O(n^2)"
+					},
+					"pseudocode": [
+						"function matrixChainOrder(dims):",
+						"    n = len(dims) - 1",
+						"    dp = 2D array n x n",
+						"",
+						"    for i = 1 to n:",
+						"        dp[i][i] = 0",
+						"",
+						"    for L = 2 to n:",
+						"        for i = 1 to n - L + 1:",
+						"            j = i + L - 1",
+						"            dp[i][j] = INFINITY",
+						"            for k = i to j-1:",
+						"                cost = dp[i][k] + dp[k+1][j] + dims[i-1] * dims[k] * dims[j]",
+						"                if cost < dp[i][j]:",
+						"                    dp[i][j] = cost",
+						"",
+						"    return dp[1][n-1]"
+					],
+					"usage": [
+						"Optimizing matrix multiplication order",
+						"Compiler optimization (expression trees)",
+						"GPU tensor operations",
+						"Neural network layer fusion"
+					]
+				},
+				{
+					"name": "Coin Change Problem",
+					"complexity": {
+						"time": "O(n * amount), where n is the number of coin types",
+						"space": "O(amount)"
+					},
+					"pseudocode": [
+						"function coinChange(coins, amount):",
+						"    dp = array of size (amount + 1)",
+						"    dp[0] = 0",
+						"    for i = 1 to amount:",
+						"        dp[i] = INFINITY",
+						"",
+						"    for i = 1 to amount:",
+						"        for coin in coins:",
+						"            if coin <= i and dp[i - coin] != INFINITY:",
+						"                dp[i] = min(dp[i], dp[i - coin] + 1)",
+						"",
+						"    return dp[amount] if dp[amount] != INFINITY else -1"
+					],
+					"usage": [
+						"Minimum coins to make change",
+						"Dynamic currency systems",
+						"Resource allocation with denominations",
+						"Greedy vs DP comparison"
+					]
+				}
+			]
+		},
+		{
+			"category": "Greedy Algorithms",
+			"algorithms": [
+				{
+					"name": "Huffman Coding",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function huffman(frequencies):",
+						"    pq = MinHeap()",
+						"    for (char, freq) in frequencies:",
+						"        pq.insert(Node(char, freq))",
+						"",
+						"    while pq.size() > 1:",
+						"        left = pq.extractMin()",
+						"        right = pq.extractMin()",
+						"        merged = Node(null, left.freq + right.freq, left, right)",
+						"        pq.insert(merged)",
+						"",
+						"    return pq.extractMin()  // Root of Huffman tree"
+					],
+					"usage": [
+						"File compression (ZIP, JPEG, MP3)",
+						"Data transmission (variable-length codes)",
+						"Optimal prefix-free coding",
+						"Lossless compression"
+					]
+				},
+				{
+					"name": "Prim's Algorithm",
+					"complexity": {
+						"time": "O(E log V) with a priority queue",
+						"space": "O(V + E)"
+					},
+					"pseudocode": [
+						"function prim(graph, start):",
+						"    mst = []",
+						"    visited = set()",
+						"    pq = MinHeap()",
+						"    pq.insert((0, start, null))",
+						"",
+						"    while pq is not empty:",
+						"        (weight, u, parent) = pq.extractMin()",
+						"        if u in visited: continue",
+						"",
+						"        visited.add(u)",
+						"        if parent != null:",
+						"            mst.append((parent, u, weight))",
+						"",
+						"        for (v, w) in graph[u]:",
+						"            if v not in visited:",
+						"                pq.insert((w, v, u))",
+						"",
+						"    return mst"
+					],
+					"usage": [
+						"Network design (fiber optics, roads)",
+						"Game world generation",
+						"Clustering (minimum spanning tree)",
+						"Approximation algorithms"
+					]
+				},
+				{
+					"name": "Kruskal's Algorithm",
+					"complexity": {
+						"time": "O(E log E) or O(E log V)",
+						"space": "O(V + E)"
+					},
+					"pseudocode": [
+						"function kruskal(graph):",
+						"    mst = []",
+						"    parent = [i for i in range(V)]",
+						"    edges = sort all edges by weight",
+						"",
+						"    for (u, v, w) in edges:",
+						"        pu = find(parent, u)",
+						"        pv = find(parent, v)",
+						"        if pu != pv:",
+						"            mst.append((u, v, w))",
+						"            union(parent, pu, pv)",
+						"",
+						"    return mst",
+						"",
+						"function find(parent, i):",
+						"    if parent[i] != i:",
+						"        parent[i] = find(parent, parent[i])",
+						"    return parent[i]",
+						"",
+						"function union(parent, x, y):",
+						"    parent[y] = x"
+					],
+					"usage": [
+						"Network topology design",
+						"Image segmentation",
+						"Clustering in data mining",
+						"Minimum bottleneck spanning tree"
+					]
+				},
+				{
+					"name": "Activity Selection Problem",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function activitySelection(start, end):",
+						"    activities = zip(start, end, indices)",
+						"    sort activities by end time",
+						"",
+						"    selected = [activities[0]]",
+						"    lastEnd = activities[0].end",
+						"",
+						"    for act in activities[1:]:",
+						"        if act.start >= lastEnd:",
+						"            selected.append(act)",
+						"            lastEnd = act.end",
+						"",
+						"    return selected"
+					],
+					"usage": [
+						"Scheduling meetings in a room",
+						"CPU task scheduling",
+						"Resource allocation",
+						"Interval graph coloring"
+					]
+				},
+				{
+					"name": "Dijkstra's Algorithm (Greedy)",
+					"complexity": {
+						"time": "O((V + E) log V) with a priority queue",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function dijkstra(graph, start):",
+						"    dist = [INFINITY] * V",
+						"    dist[start] = 0",
+						"    pq = MinHeap()",
+						"    pq.insert((0, start))",
+						"",
+						"    while pq is not empty:",
+						"        (d, u) = pq.extractMin()",
+						"        if d > dist[u]: continue",
+						"",
+						"        for (v, w) in graph[u]:",
+						"            if dist[v] > dist[u] + w:",
+						"                dist[v] = dist[u] + w",
+						"                pq.insert((dist[v], v))",
+						"",
+						"    return dist"
+					],
+					"usage": [
+						"GPS navigation systems",
+						"Network routing (OSPF)",
+						"Robotics path planning",
+						"Social network analysis"
+					]
+				},
+				{
+					"name": "Fractional Knapsack Problem",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function fractionalKnapsack(items, W):",
+						"    sort items by (value/weight) descending",
+						"    total = 0",
+						"",
+						"    for (val, wt, ratio) in items:",
+						"        if W <= 0: break",
+						"        if wt <= W:",
+						"            total += val",
+						"            W -= wt",
+						"        else:",
+						"            total += ratio * W",
+						"            W = 0",
+						"",
+						"    return total"
+					],
+					"usage": [
+						"Loading cargo with weight limit",
+						"Resource allocation with fractions",
+						"Stock cutting problem",
+						"Greedy vs 0/1 knapsack comparison"
+					]
+				}
+			]
+		},
+		{
+			"category": "Backtracking",
+			"algorithms": [
+				{
+					"name": "N-Queens Problem",
+					"complexity": {
+						"time": "O(N!) in worst case",
+						"space": "O(N) for board + recursion stack"
+					},
+					"pseudocode": [
+						"function solveNQueens(n):",
+						"    board = n x n matrix filled with '.'",
+						"    solutions = []",
+						"    backtrack(0, board, solutions)",
+						"    return solutions",
+						"",
+						"function backtrack(row, board, solutions):",
+						"    if row == n:",
+						"        solutions.append(copy(board))",
+						"        return",
+						"",
+						"    for col = 0 to n-1:",
+						"        if isSafe(board, row, col):",
+						"            board[row][col] = 'Q'",
+						"            backtrack(row + 1, board, solutions)",
+						"            board[row][col] = '.'  // backtrack",
+						"",
+						"function isSafe(board, row, col):",
+						"    // Check column",
+						"    for i = 0 to row-1:",
+						"        if board[i][col] == 'Q': return false",
+						"",
+						"    // Check upper-left diagonal",
+						"    for i = row-1, j = col-1; i >= 0 and j >= 0; i--, j--:",
+						"        if board[i][j] == 'Q': return false",
+						"",
+						"    // Check upper-right diagonal",
+						"    for i = row-1, j = col+1; i >= 0 and j < n; i--, j++:",
+						"        if board[i][j] == 'Q': return false",
+						"",
+						"    return true"
+					],
+					"usage": [
+						"Chess AI move validation",
+						"Puzzle generation",
+						"Constraint satisfaction problems",
+						"Teaching recursion and backtracking"
+					]
+				},
+				{
+					"name": "Sudoku Solver",
+					"complexity": {
+						"time": "O(9^(n*n)) worst case, much faster in practice",
+						"space": "O(n^2) for board + O(n) recursion"
+					},
+					"pseudocode": [
+						"function solveSudoku(board):",
+						"    backtrack(board)",
+						"    return board",
+						"",
+						"function backtrack(board):",
+						"    for row = 0 to 8:",
+						"        for col = 0 to 8:",
+						"            if board[row][col] == '.':",
+						"                for num = '1' to '9':",
+						"                    if isValid(board, row, col, num):",
+						"                        board[row][col] = num",
+						"                        if backtrack(board):",
+						"                            return true",
+						"                        board[row][col] = '.'",
+						"                return false",
+						"    return true  // All cells filled",
+						"",
+						"function isValid(board, row, col, num):",
+						"    // Check row and column",
+						"    for i = 0 to 8:",
+						"        if board[row][i] == num or board[i][col] == num:",
+						"            return false",
+						"",
+						"    // Check 3x3 subgrid",
+						"    startRow = (row // 3) * 3",
+						"    startCol = (col // 3) * 3",
+						"    for i = 0 to 2:",
+						"        for j = 0 to 2:",
+						"            if board[startRow + i][startCol + j] == num:",
+						"                return false",
+						"",
+						"    return true"
+					],
+					"usage": [
+						"Sudoku mobile games",
+						"Puzzle solvers and generators",
+						"Constraint programming",
+						"AI for logic puzzles"
+					]
+				},
+				{
+					"name": "Hamiltonian Cycle",
+					"complexity": {
+						"time": "O(n!) in worst case",
+						"space": "O(n) for path + recursion stack"
+					},
+					"pseudocode": [
+						"function hamiltonianCycle(graph):",
+						"    n = length(graph)",
+						"    path = [-1] * n",
+						"    path[0] = 0",
+						"",
+						"    if backtrack(graph, path, 1):",
+						"        return path + [0]  // Close cycle",
+						"    return null",
+						"",
+						"function backtrack(graph, path, pos):",
+						"    if pos == n:",
+						"        return graph[path[pos-1]][path[0]] == 1",
+						"",
+						"    for v = 0 to n-1:",
+						"        if isSafe(v, graph, path, pos):",
+						"            path[pos] = v",
+						"            if backtrack(graph, path, pos + 1):",
+						"                return true",
+						"            path[pos] = -1",
+						"",
+						"    return false",
+						"",
+						"function isSafe(v, graph, path, pos):",
+						"    if graph[path[pos-1]][v] == 0: return false",
+						"    if v in path: return false",
+						"    return true"
+					],
+					"usage": [
+						"Traveling Salesman Problem (TSP) approximation",
+						"Genome sequencing (DNA fragment assembly)",
+						"Network routing with full traversal",
+						"Graph theory research"
+					]
+				},
+				{
+					"name": "Subset Sum Problem",
+					"complexity": {
+						"time": "O(2^n)",
+						"space": "O(n) recursion stack"
+					},
+					"pseudocode": [
+						"function subsetSum(nums, target):",
+						"    return backtrack(nums, target, 0, [])",
+						"",
+						"function backtrack(nums, target, index, current):",
+						"    if target == 0:",
+						"        return current",
+						"    if index >= len(nums) or target < 0:",
+						"        return null",
+						"",
+						"    // Include current element",
+						"    with = backtrack(nums, target - nums[index], index + 1, current + [nums[index]])",
+						"    if with != null: return with",
+						"",
+						"    // Exclude current element",
+						"    without = backtrack(nums, target, index + 1, current)",
+						"    return without"
+					],
+					"usage": [
+						"Knapsack variant (0/1)",
+						"Cryptanalysis (partition problem)",
+						"Resource allocation",
+						"Puzzle games (number target)"
+					]
+				}
+			]
+		},
+		{
+			"category": "Divide and Conquer",
+			"algorithms": [
+				{
+					"name": "Merge Sort",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function mergeSort(arr):",
+						"    if len(arr) <= 1:",
+						"        return arr",
+						"",
+						"    mid = len(arr) // 2",
+						"    left = mergeSort(arr[0:mid])",
+						"    right = mergeSort(arr[mid:])",
+						"",
+						"    return merge(left, right)",
+						"",
+						"function merge(left, right):",
+						"    result = []",
+						"    i = j = 0",
+						"    while i < len(left) and j < len(right):",
+						"        if left[i] <= right[j]:",
+						"            result.append(left[i])",
+						"            i++",
+						"        else:",
+						"            result.append(right[j])",
+						"            j++",
+						"    result += left[i:]",
+						"    result += right[j:]",
+						"    return result"
+					],
+					"usage": [
+						"External sorting (large datasets on disk)",
+						"Inversion counting",
+						"Stable sorting in libraries",
+						"Linked list sorting"
+					]
+				},
+				{
+					"name": "Quick Sort",
+					"complexity": {
+						"time": "O(n log n) average, O(n^2) worst",
+						"space": "O(log n) stack space"
+					},
+					"pseudocode": [
+						"function quickSort(arr, low, high):",
+						"    if low < high:",
+						"        pivotIdx = partition(arr, low, high)",
+						"        quickSort(arr, low, pivotIdx - 1)",
+						"        quickSort(arr, pivotIdx + 1, high)",
+						"",
+						"function partition(arr, low, high):",
+						"    pivot = arr[high]",
+						"    i = low - 1",
+						"    for j = low to high - 1:",
+						"        if arr[j] <= pivot:",
+						"            i++",
+						"            swap(arr[i], arr[j])",
+						"    swap(arr[i + 1], arr[high])",
+						"    return i + 1"
+					],
+					"usage": [
+						"Fastest in-memory sorting (C++ std::sort)",
+						"Quickselect for k-th smallest",
+						"Randomized algorithms",
+						"Hybrid with insertion sort"
+					]
+				},
+				{
+					"name": "Binary Search",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(1) iterative, O(log n) recursive"
+					},
+					"pseudocode": [
+						"function binarySearch(arr, target):",
+						"    left = 0",
+						"    right = len(arr) - 1",
+						"",
+						"    while left <= right:",
+						"        mid = left + (right - left) // 2",
+						"        if arr[mid] == target:",
+						"            return mid",
+						"        else if arr[mid] < target:",
+						"            left = mid + 1",
+						"        else:",
+						"            right = mid - 1",
+						"",
+						"    return -1"
+					],
+					"usage": [
+						"Searching in sorted arrays",
+						"Lower/upper bound in databases",
+						"Binary lifting in trees",
+						"Finding sqrt with precision"
+					]
+				},
+				{
+					"name": "Strassen's Matrix Multiplication",
+					"complexity": {
+						"time": "O(n^2.81)",
+						"space": "O(n^2)"
+					},
+					"pseudocode": [
+						"function strassen(A, B):",
+						"    n = size(A)",
+						"    if n == 1:",
+						"        return [[A[0][0] * B[0][0]]]",
+						"",
+						"    Split A and B into 4 submatrices each",
+						"    M1 = (A11 + A22)(B11 + B22)",
+						"    M2 = (A21 + A22)B11",
+						"    M3 = A11(B12 - B22)",
+						"    M4 = A22(B21 - B11)",
+						"    M5 = (A11 + A12)B22",
+						"    M6 = (A21 - A11)(B11 + B12)",
+						"    M7 = (A12 - A22)(B21 + B22)",
+						"",
+						"    C11 = M1 + M4 - M5 + M7",
+						"    C12 = M3 + M5",
+						"    C21 = M2 + M4",
+						"    C22 = M1 - M2 + M3 + M6",
+						"",
+						"    Combine C11, C12, C21, C22 into result",
+						"    return result"
+					],
+					"usage": [
+						"Large-scale linear algebra",
+						"Computer graphics (3D transforms)",
+						"Signal processing (FFT)",
+						"Neural network training"
+					]
+				}
+			]
+		},
+		{
+			"category": "Hashing",
+			"algorithms": [
+				{
+					"name": "Chaining Insert",
+					"complexity": {
+						"time": "O(1) average, O(n) worst",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function insert(hashTable, key, value):",
+						"    index = hash(key) % size(hashTable)",
+						"    if hashTable[index] is null:",
+						"        hashTable[index] = empty list",
+						"    for pair in hashTable[index]:",
+						"        if pair.key == key:",
+						"            pair.value = value",
+						"            return",
+						"    hashTable[index].append((key, value))"
+					],
+					"usage": [
+						"Python dict, Java HashMap",
+						"Symbol tables in compilers",
+						"Database indexing",
+						"Cache systems"
+					]
+				},
+				{
+					"name": "Open Addressing (Linear Probing) Insert",
+					"complexity": {
+						"time": "O(1) average, O(n) worst",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function insert(hashTable, key, value):",
+						"    index = hash(key) % size(hashTable)",
+						"    while hashTable[index] is not null and hashTable[index].key != key:",
+						"        index = (index + 1) % size(hashTable)",
+						"    hashTable[index] = (key, value)"
+					],
+					"usage": [
+						"Memory-efficient hash tables",
+						"C++ unordered_map (with probing)",
+						"Embedded systems",
+						"Fast lookup with low memory"
+					]
+				},
+				{
+					"name": "Double Hashing Insert",
+					"complexity": {
+						"time": "O(1) average, O(n) worst",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function insert(hashTable, key, value):",
+						"    h1 = hash1(key) % size(hashTable)",
+						"    h2 = hash2(key) % (size(hashTable) - 1) + 1",
+						"    index = h1",
+						"    while hashTable[index] is not null and hashTable[index].key != key:",
+						"        index = (index + h2) % size(hashTable)",
+						"    hashTable[index] = (key, value)"
+					],
+					"usage": [
+						"Reduces clustering vs linear probing",
+						"High-performance hash tables",
+						"Scientific computing",
+						"Collision-resistant storage"
+					]
+				},
+				{
+					"name": "Cuckoo Hashing",
+					"complexity": {
+						"time": "O(1) average (amortized), O(n) worst",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function insert(key, value):",
+						"    if lookup(key): update value",
+						"    pos1 = hash1(key) % size1",
+						"    pos2 = hash2(key) % size2",
+						"    if table1[pos1] is null:",
+						"        table1[pos1] = (key, value)",
+						"    elif table2[pos2] is null:",
+						"        table2[pos2] = (key, value)",
+						"    else:",
+						"        evict from table1[pos1] or table2[pos2]",
+						"        insert evicted item recursively",
+						"        if cycle or max kicks: rehash both tables"
+					],
+					"usage": [
+						"Guaranteed O(1) lookup",
+						"Hardware routing tables",
+						"Network packet classification",
+						"High-speed databases"
+					]
+				}
+			]
+		},
+		{
+			"category": "Mathematical Algorithms",
+			"algorithms": [
+				{
+					"name": "Euclidean Algorithm",
+					"complexity": {
+						"time": "O(log(min(a, b)))",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function gcd(a, b):",
+						"    while b != 0:",
+						"        temp = b",
+						"        b = a % b",
+						"        a = temp",
+						"    return a"
+					],
+					"usage": [
+						"Simplifying fractions in mathematics",
+						"Cryptography (e.g., RSA algorithm)",
+						"Finding the least common multiple (LCM)",
+						"Optimizing algorithms involving modular arithmetic"
+					]
+				},
+				{
+					"name": "Sieve of Eratosthenes",
+					"complexity": {
+						"time": "O(n log log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function sieve(n):",
+						"    isPrime = array of size (n + 1), initialized to True",
+						"    isPrime[0] = isPrime[1] = False",
+						"    for p = 2 to sqrt(n):",
+						"        if isPrime[p]:",
+						"            for i = p * p to n, step p:",
+						"                isPrime[i] = False",
+						"    primes = []",
+						"    for p = 2 to n:",
+						"        if isPrime[p]:",
+						"            primes.append(p)",
+						"    return primes"
+					],
+					"usage": [
+						"Generating prime numbers for cryptography",
+						"Factorization in number theory",
+						"Efficiently finding primes in a range",
+						"Optimizing algorithms requiring prime checks"
+					]
+				},
+				{
+					"name": "Fast Exponentiation",
+					"complexity": {
+						"time": "O(log n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function fastExponentiation(base, power):",
+						"    result = 1",
+						"    while power > 0:",
+						"        if power % 2 == 1:",
+						"            result *= base",
+						"        base *= base",
+						"        power = power // 2",
+						"    return result"
+					],
+					"usage": [
+						"Cryptography (e.g., RSA, Diffie-Hellman)",
+						"Efficiently computing large powers in algorithms",
+						"Matrix exponentiation for dynamic programming",
+						"Calculating Fibonacci numbers in logarithmic time"
+					]
+				},
+				{
+					"name": "Chinese Remainder Theorem",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function chineseRemainderTheorem(a, m):",
+						"    M = 1",
+						"    for mi in m:",
+						"        M *= mi",
+						"    x = 0",
+						"    for ai, mi in zip(a, m):",
+						"        Mi = M // mi",
+						"        y = modInverse(Mi, mi)",
+						"        x += ai * Mi * y",
+						"    return x % M",
+						"",
+						"function modInverse(a, m):",
+						"    m0 = m",
+						"    y = 0",
+						"    x = 1",
+						"    if m == 1:",
+						"        return 0",
+						"    while a > 1:",
+						"        q = a // m",
+						"        t = m",
+						"        m = a % m",
+						"        a = t",
+						"        t = y",
+						"        y = x - q * y",
+						"        x = t",
+						"    if x < 0:",
+						"        x += m0",
+						"    return x"
+					],
+					"usage": [
+						"Cryptography (e.g., RSA, secret sharing)",
+						"Solving systems of congruences in number theory",
+						"Optimizing algorithms involving modular arithmetic",
+						"Error correction in coding theory"
+					]
+				}
+			]
+		},
+		{
+			"category": "String Algorithms",
+			"algorithms": [
+				{
+					"name": "KMP Algorithm",
+					"complexity": {
+						"time": "O(n + m)",
+						"space": "O(m)"
+					},
+					"pseudocode": [
+						"function KMP(text, pattern):",
+						"    lps = computeLPS(pattern)",
+						"    i = j = 0",
+						"    while i < length(text):",
+						"        if text[i] == pattern[j]:",
+						"            i += 1",
+						"            j += 1",
+						"            if j == length(pattern):",
+						"                return i - j",
+						"        else if j != 0:",
+						"            j = lps[j - 1]",
+						"        else:",
+						"            i += 1",
+						"    return -1",
+						"",
+						"function computeLPS(pattern):",
+						"    lps = array of size length(pattern)",
+						"    length = 0",
+						"    i = 1",
+						"    while i < length(pattern):",
+						"        if pattern[i] == pattern[length]:",
+						"            length += 1",
+						"            lps[i] = length",
+						"            i += 1",
+						"        else:",
+						"            if length != 0:",
+						"                length = lps[length - 1]",
+						"            else:",
+						"                lps[i] = 0",
+						"                i += 1",
+						"    return lps"
+					],
+					"usage": [
+						"Pattern matching in text editors",
+						"Searching for substrings in large texts",
+						"Bioinformatics for DNA sequence matching",
+						"Plagiarism detection in documents"
+					]
+				},
+				{
+					"name": "Rabin-Karp Algorithm",
+					"complexity": {
+						"time": "O(n + m) average, O(nm) worst",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function rabinKarp(text, pattern, prime):",
+						"    n = length(text)",
+						"    m = length(pattern)",
+						"    h = 1",
+						"    d = 256",
+						"    for i = 1 to m - 1:",
+						"        h = (h * d) % prime",
+						"    patternHash = 0",
+						"    textHash = 0",
+						"    for i = 0 to m - 1:",
+						"        patternHash = (d * patternHash + ord(pattern[i])) % prime",
+						"        textHash = (d * textHash + ord(text[i])) % prime",
+						"    for i = 0 to n - m:",
+						"        if patternHash == textHash:",
+						"            if text[i:i+m] == pattern:",
+						"                return i",
+						"        if i < n - m:",
+						"            textHash = (d * (textHash - ord(text[i]) * h) + ord(text[i + m])) % prime",
+						"            if textHash < 0:",
+						"                textHash += prime",
+						"    return -1"
+					],
+					"usage": [
+						"Plagiarism detection",
+						"Searching for patterns in large datasets",
+						"Digital forensics for file carving",
+						"Bioinformatics for sequence alignment"
+					]
+				},
+				{
+					"name": "Z Algorithm",
+					"complexity": {
+						"time": "O(n + m)",
+						"space": "O(n + m)"
+					},
+					"pseudocode": [
+						"function zAlgorithm(text, pattern):",
+						"    concat = pattern + '$' + text",
+						"    n = length(concat)",
+						"    Z = array of size n, initialized to 0",
+						"    Z[0] = n",
+						"    l = r = 0",
+						"    for i = 1 to n - 1:",
+						"        if i > r:",
+						"            l = r = i",
+						"            while r < n and concat[r - l] == concat[r]:",
+						"                r += 1",
+						"            Z[i] = r - l",
+						"            r -= 1",
+						"        else:",
+						"            k = i - l",
+						"            if Z[k] < r - i + 1:",
+						"                Z[i] = Z[k]",
+						"            else:",
+						"                l = i",
+						"                while r < n and concat[r - l] == concat[r]:",
+						"                    r += 1",
+						"                Z[i] = r - l",
+						"                r -= 1",
+						"    for i = length(pattern) + 1 to n - 1:",
+						"        if Z[i] == length(pattern):",
+						"            return i - length(pattern) - 1",
+						"    return -1"
+					],
+					"usage": [
+						"Pattern matching in text processing",
+						"Finding repeated substrings in DNA sequences",
+						"Data compression algorithms",
+						"Efficient string search in large corpora"
+					]
+				},
+				{
+					"name": "Suffix Array Construction",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function buildSuffixArray(text):",
+						"    n = length(text)",
+						"    suffixes = array of tuples (suffix, index) for each i in 0 to n - 1",
+						"    suffixes.sort()",
+						"    suffixArray = array of size n",
+						"    for i = 0 to n - 1:",
+						"        suffixArray[i] = suffixes[i][1]",
+						"    return suffixArray"
+					],
+					"usage": [
+						"Full-text search engines",
+						"Bioinformatics for genome analysis",
+						"Data compression (e.g., Burrows-Wheeler Transform)",
+						"Pattern matching in large texts"
+					]
+				}
+			]
+		},
+		{
+			"category": "Computational Geometry",
+			"algorithms": [
+				{
+					"name": "Convex Hull (Graham Scan)",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function grahamScan(points):",
+						"    if length(points) <= 1:",
+						"        return points",
+						"    points.sort(key=lambda p: (p.y, p.x))",
+						"    pivot = points[0]",
+						"    points.sort(key=lambda p: (atan2(p.y - pivot.y, p.x - pivot.x), p.x, p.y))",
+						"    stack = [pivot, points[1]]",
+						"    for i = 2 to length(points) - 1:",
+						"        while length(stack) > 1 and cross(stack[-2], stack[-1], points[i]) <= 0:",
+						"            stack.pop()",
+						"        stack.append(points[i])",
+						"    return stack",
+						"",
+						"function cross(o, a, b):",
+						"    return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x)"
+					],
+					"usage": [
+						"Computer graphics for collision detection",
+						"Geographic Information Systems (GIS)",
+						"Robotics for path planning",
+						"Image processing and object recognition"
+					]
+				},
+				{
+					"name": "Line Intersection",
+					"complexity": {
+						"time": "O(1) per pair of lines",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function lineIntersection(p1, p2, p3, p4):",
+						"    x1, y1 = p1.x, p1.y",
+						"    x2, y2 = p2.x, p2.y",
+						"    x3, y3 = p3.x, p3.y",
+						"    x4, y4 = p4.x, p4.y",
+						"    denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)",
+						"    if denom == 0:",
+						"        return None",
+						"    x = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / denom",
+						"    y = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / denom",
+						"    return (x, y)"
+					],
+					"usage": [
+						"Computer graphics for rendering",
+						"Geometric modeling and CAD software",
+						"Robotics for obstacle avoidance",
+						"Game development for collision detection"
+					]
+				},
+				{
+					"name": "Closest Pair of Points",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function closestPair(points):",
+						"    points.sort(key=lambda p: (p.x, p.y))",
+						"    return closestPairRecursive(points)",
+						"",
+						"function closestPairRecursive(points):",
+						"    if length(points) <= 3:",
+						"        return bruteForce(points)",
+						"    mid = length(points) // 2",
+						"    left = points[:mid]",
+						"    right = points[mid:]",
+						"    dl = closestPairRecursive(left)",
+						"    dr = closestPairRecursive(right)",
+						"    d = min(dl, dr)",
+						"    strip = []",
+						"    midX = points[mid].x",
+						"    for point in points:",
+						"        if abs(point.x - midX) < d:",
+						"            strip.append(point)",
+						"    strip.sort(key=lambda p: p.y)",
+						"    for i = 0 to length(strip) - 1:",
+						"        for j = i + 1 to length(strip) - 1:",
+						"            if (strip[j].y - strip[i].y) >= d:",
+						"                break",
+						"            d = min(d, distance(strip[i], strip[j]))",
+						"    return d",
+						"",
+						"function bruteForce(points):",
+						"    minDist = INFINITY",
+						"    for i = 0 to length(points) - 1:",
+						"        for j = i + 1 to length(points) - 1:",
+						"            minDist = min(minDist, distance(points[i], points[j]))",
+						"    return minDist",
+						"",
+						"function distance(p1, p2):",
+						"    return sqrt((p1.x - p2.x)^2 + (p1.y - p2.y)^2)"
+					],
+					"usage": [
+						"Geographic Information Systems (GIS) for spatial analysis",
+						"Astronomy for star mapping",
+						"Robotics for localization and mapping",
+						"Computer graphics for clustering"
+					]
+				},
+				{
+					"name": "Voronoi Diagram (Fortune's Algorithm)",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function voronoiDiagram(points):",
+						"    eventQueue = priority queue of site events and circle events",
+						"    beachLine = balanced binary search tree",
+						"    for point in points:",
+						"        eventQueue.push(SiteEvent(point))",
+						"    while eventQueue is not empty:",
+						"        event = eventQueue.pop()",
+						"        if event is SiteEvent:",
+						"            handleSiteEvent(event, beachLine, eventQueue)",
+						"        else:",
+						"            handleCircleEvent(event, beachLine, eventQueue)",
+						"    return voronoiEdges"
+					],
+					"usage": [
+						"Geographic Information Systems (GIS) for spatial partitioning",
+						"Computer graphics for procedural generation",
+						"Robotics for coverage path planning",
+						"Wireless network optimization for base station placement"
+					]
+				}
+			]
+		},
+		{
+			"category": "Network Flow Algorithms",
+			"algorithms": [
+				{
+					"name": "Ford-Fulkerson Method",
+					"complexity": {
+						"time": "O(E * f), where f is the maximum flow",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function fordFulkerson(graph, source, sink):",
+						"    maxFlow = 0",
+						"    residualGraph = copy(graph)",
+						"    while True:",
+						"        pathFlow = BFS(residualGraph, source, sink)",
+						"        if pathFlow == 0:",
+						"            break",
+						"        maxFlow += pathFlow",
+						"        updateResidualGraph(residualGraph, path, pathFlow)",
+						"    return maxFlow",
+						"",
+						"function BFS(residualGraph, source, sink):",
+						"    parent = array of size V, initialized to -1",
+						"    queue = Queue()",
+						"    queue.enqueue(source)",
+						"    parent[source] = -2",
+						"    while queue is not empty:",
+						"        u = queue.dequeue()",
+						"        for v in residualGraph[u]:",
+						"            if parent[v] == -1 and residualGraph[u][v] > 0:",
+						"                parent[v] = u",
+						"                if v == sink:",
+						"                    pathFlow = INFINITY",
+						"                    v = sink",
+						"                    while v != source:",
+						"                        u = parent[v]",
+						"                        pathFlow = min(pathFlow, residualGraph[u][v])",
+						"                        v = u",
+						"                    return pathFlow",
+						"                queue.enqueue(v)",
+						"    return 0",
+						"",
+						"function updateResidualGraph(residualGraph, path, pathFlow):",
+						"    v = sink",
+						"    while v != source:",
+						"        u = parent[v]",
+						"        residualGraph[u][v] -= pathFlow",
+						"        residualGraph[v][u] += pathFlow",
+						"        v = u"
+					],
+					"usage": [
+						"Network routing and traffic optimization",
+						"Supply chain logistics for maximizing throughput",
+						"Image segmentation in computer vision",
+						"Bipartite matching in job assignment problems"
+					]
+				},
+				{
+					"name": "Edmonds-Karp Algorithm",
+					"complexity": {
+						"time": "O(V * E^2)",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function edmondsKarp(graph, source, sink):",
+						"    maxFlow = 0",
+						"    residualGraph = copy(graph)",
+						"    while True:",
+						"        pathFlow = BFS(residualGraph, source, sink)",
+						"        if pathFlow == 0:",
+						"            break",
+						"        maxFlow += pathFlow",
+						"        updateResidualGraph(residualGraph, path, pathFlow)",
+						"    return maxFlow",
+						"",
+						"function BFS(residualGraph, source, sink):",
+						"    parent = array of size V, initialized to -1",
+						"    queue = Queue()",
+						"    queue.enqueue(source)",
+						"    parent[source] = -2",
+						"    while queue is not empty:",
+						"        u = queue.dequeue()",
+						"        for v in residualGraph[u]:",
+						"            if parent[v] == -1 and residualGraph[u][v] > 0:",
+						"                parent[v] = u",
+						"                if v == sink:",
+						"                    pathFlow = INFINITY",
+						"                    v = sink",
+						"                    while v != source:",
+						"                        u = parent[v]",
+						"                        pathFlow = min(pathFlow, residualGraph[u][v])",
+						"                        v = u",
+						"                    return pathFlow",
+						"                queue.enqueue(v)",
+						"    return 0"
+					],
+					"usage": [
+						"Optimizing flow in transportation networks",
+						"Maximizing data transfer in computer networks",
+						"Resource allocation in project management",
+						"Bipartite graph matching for job assignments"
+					]
+				},
+				{
+					"name": "Dinic's Algorithm",
+					"complexity": {
+						"time": "O(V^2 * E)",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function dinic(graph, source, sink):",
+						"    maxFlow = 0",
+						"    residualGraph = copy(graph)",
+						"    while BFS(residualGraph, source, sink):",
+						"        maxFlow += DFS(residualGraph, source, sink, INFINITY)",
+						"    return maxFlow",
+						"",
+						"function BFS(residualGraph, source, sink):",
+						"    level = array of size V, initialized to -1",
+						"    level[source] = 0",
+						"    queue = Queue()",
+						"    queue.enqueue(source)",
+						"    while queue is not empty:",
+						"        u = queue.dequeue()",
+						"        for v in residualGraph[u]:",
+						"            if level[v] == -1 and residualGraph[u][v] > 0:",
+						"                level[v] = level[u] + 1",
+						"                queue.enqueue(v)",
+						"    return level[sink] != -1",
+						"",
+						"function DFS(residualGraph, u, sink, flow):",
+						"    if u == sink:",
+						"        return flow",
+						"    for v in residualGraph[u]:",
+						"        if residualGraph[u][v] > 0 and level[v] == level[u] + 1:",
+						"            currentFlow = min(flow, residualGraph[u][v])",
+						"            tempFlow = DFS(residualGraph, v, sink, currentFlow)",
+						"            if tempFlow > 0:",
+						"                residualGraph[u][v] -= tempFlow",
+						"                residualGraph[v][u] += tempFlow",
+						"                return tempFlow",
+						"    return 0"
+					],
+					"usage": [
+						"High-performance network flow optimization",
+						"Large-scale logistics and supply chain management",
+						"Image processing for segmentation",
+						"Bipartite matching in recommendation systems"
+					]
+				},
+				{
+					"name": "Push-Relabel Algorithm",
+					"complexity": {
+						"time": "O(V^2 * sqrt(E))",
+						"space": "O(V)"
+					},
+					"pseudocode": [
+						"function pushRelabel(graph, source, sink):",
+						"    height = array of size V, initialized to 0",
+						"    excess = array of size V, initialized to 0",
+						"    height[source] = V",
+						"    excess[source] = INFINITY",
+						"    for v in graph[source]:",
+						"        excess[v] = graph[source][v]",
+						"        graph[source][v] = 0",
+						"        graph[v][source] = excess[v]",
+						"    while True:",
+						"        u = selectVertexWithExcess(excess)",
+						"        if u == None:",
+						"            break",
+						"        pushRelabelStep(graph, u, height, excess)",
+						"    return sum(excess[1:])",
+						"",
+						"function pushRelabelStep(graph, u, height, excess):",
+						"    for v in graph[u]:",
+						"        if graph[u][v] > 0 and height[u] > height[v]:",
+						"            flow = min(excess[u], graph[u][v])",
+						"            graph[u][v] -= flow",
+						"            graph[v][u] += flow",
+						"            excess[u] -= flow",
+						"            excess[v] += flow",
+						"            if excess[u] == 0:",
+						"                break",
+						"    if excess[u] > 0:",
+						"        minHeight = INFINITY",
+						"        for v in graph[u]:",
+						"            if graph[u][v] > 0:",
+						"                minHeight = min(minHeight, height[v])",
+						"        height[u] = minHeight + 1"
+					],
+					"usage": [
+						"Large-scale network flow problems",
+						"Optimizing resource allocation in cloud computing",
+						"Traffic flow optimization in smart cities",
+						"Image processing for segmentation"
+					]
+				}
+			]
+		},
+		{
+			"category": "String Matching Algorithms",
+			"algorithms": [
+				{
+					"name": "Naive String Matching",
+					"complexity": {
+						"time": "O(n * m)",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function naiveStringMatching(text, pattern):",
+						"    n = length(text)",
+						"    m = length(pattern)",
+						"    for i = 0 to n - m:",
+						"        j = 0",
+						"        while j < m and text[i + j] == pattern[j]:",
+						"            j += 1",
+						"        if j == m:",
+						"            return i",
+						"    return -1"
+					],
+					"usage": [
+						"Simple text search in small documents",
+						"Educational purposes for teaching string matching",
+						"Basic pattern recognition in logs",
+						"Preprocessing step for more advanced algorithms"
+					]
+				},
+				{
+					"name": "KMP Algorithm",
+					"complexity": {
+						"time": "O(n + m)",
+						"space": "O(m)"
+					},
+					"pseudocode": [
+						"function KMP(text, pattern):",
+						"    lps = computeLPS(pattern)",
+						"    i = j = 0",
+						"    while i < length(text):",
+						"        if text[i] == pattern[j]:",
+						"            i += 1",
+						"            j += 1",
+						"            if j == length(pattern):",
+						"                return i - j",
+						"        else if j != 0:",
+						"            j = lps[j - 1]",
+						"        else:",
+						"            i += 1",
+						"    return -1",
+						"",
+						"function computeLPS(pattern):",
+						"    lps = array of size length(pattern)",
+						"    length = 0",
+						"    i = 1",
+						"    while i < length(pattern):",
+						"        if pattern[i] == pattern[length]:",
+						"            length += 1",
+						"            lps[i] = length",
+						"            i += 1",
+						"        else:",
+						"            if length != 0:",
+						"                length = lps[length - 1]",
+						"            else:",
+						"                lps[i] = 0",
+						"                i += 1",
+						"    return lps"
+					],
+					"usage": [
+						"Efficient text search in large documents",
+						"Bioinformatics for DNA sequence matching",
+						"Plagiarism detection in academic papers",
+						"Search engines for keyword matching"
+					]
+				},
+				{
+					"name": "Rabin-Karp Algorithm",
+					"complexity": {
+						"time": "O(n + m) average, O(nm) worst",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function rabinKarp(text, pattern, prime):",
+						"    n = length(text)",
+						"    m = length(pattern)",
+						"    h = 1",
+						"    d = 256",
+						"    for i = 1 to m - 1:",
+						"        h = (h * d) % prime",
+						"    patternHash = 0",
+						"    textHash = 0",
+						"    for i = 0 to m - 1:",
+						"        patternHash = (d * patternHash + ord(pattern[i])) % prime",
+						"        textHash = (d * textHash + ord(text[i])) % prime",
+						"    for i = 0 to n - m:",
+						"        if patternHash == textHash:",
+						"            if text[i:i+m] == pattern:",
+						"                return i",
+						"        if i < n - m:",
+						"            textHash = (d * (textHash - ord(text[i]) * h) + ord(text[i + m])) % prime",
+						"            if textHash < 0:",
+						"                textHash += prime",
+						"    return -1"
+					],
+					"usage": [
+						"Plagiarism detection in documents",
+						"Searching for patterns in large datasets",
+						"Digital forensics for file carving",
+						"Bioinformatics for sequence alignment"
+					]
+				},
+				{
+					"name": "Boyer-Moore Algorithm",
+					"complexity": {
+						"time": "O(n/m) best, O(nm) worst",
+						"space": "O(1)"
+					},
+					"pseudocode": [
+						"function boyerMoore(text, pattern):",
+						"    n = length(text)",
+						"    m = length(pattern)",
+						"    badChar = array of size 256, initialized to -1",
+						"    for i = 0 to m - 1:",
+						"        badChar[ord(pattern[i])] = i",
+						"    s = 0",
+						"    while s <= n - m:",
+						"        j = m - 1",
+						"        while j >= 0 and pattern[j] == text[s + j]:",
+						"            j -= 1",
+						"        if j < 0:",
+						"            return s",
+						"        else:",
+						"            s += max(1, j - badChar[ord(text[s + j])])",
+						"    return -1"
+					],
+					"usage": [
+						"High-performance text search in editors",
+						"Search engines for fast pattern matching",
+						"Bioinformatics for DNA sequence analysis",
+						"Plagiarism detection in large documents"
+					]
+				}
+			]
+		},
+		{
+			"category": "Compression Algorithms",
+			"algorithms": [
+				{
+					"name": "Huffman Coding",
+					"complexity": {
+						"time": "O(n log n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function huffman(frequencies):",
+						"    priorityQueue = MinHeap()",
+						"    for (char, freq) in frequencies:",
+						"        priorityQueue.insert(Node(char, freq))",
+						"    while length(priorityQueue) > 1:",
+						"        left = priorityQueue.extractMin()",
+						"        right = priorityQueue.extractMin()",
+						"        merged = Node(None, left.freq + right.freq, left, right)",
+						"        priorityQueue.insert(merged)",
+						"    return priorityQueue.extractMin()",
+						"",
+						"function encode(root, text):",
+						"    codeTable = {}",
+						"    buildCodeTable(root, '', codeTable)",
+						"    encoded = ''",
+						"    for char in text:",
+						"        encoded += codeTable[char]",
+						"    return encoded",
+						"",
+						"function buildCodeTable(node, code, codeTable):",
+						"    if node is None:",
+						"        return",
+						"    if node.char is not None:",
+						"        codeTable[node.char] = code",
+						"    buildCodeTable(node.left, code + '0', codeTable)",
+						"    buildCodeTable(node.right, code + '1', codeTable)"
+					],
+					"usage": [
+						"Lossless data compression (e.g., ZIP, GZIP)",
+						"Reducing file sizes for storage and transmission",
+						"Text compression in databases",
+						"Optimizing network data transfer"
+					]
+				},
+				{
+					"name": "Lempel-Ziv-Welch (LZW)",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function LZWCompress(text):",
+						"    dictionary = {}",
+						"    for i = 0 to 255:",
+						"        dictionary[chr(i)] = i",
+						"    w = ''",
+						"    result = []",
+						"    for c in text:",
+						"        wc = w + c",
+						"        if wc in dictionary:",
+						"            w = wc",
+						"        else:",
+						"            result.append(dictionary[w])",
+						"            dictionary[wc] = len(dictionary)",
+						"            w = c",
+						"    if w:",
+						"        result.append(dictionary[w])",
+						"    return result",
+						"",
+						"function LZWDecompress(compressed):",
+						"    dictionary = {}",
+						"    for i = 0 to 255:",
+						"        dictionary[i] = chr(i)",
+						"    w = chr(compressed[0])",
+						"    result = w",
+						"    for k in compressed[1:]:",
+						"        if k in dictionary:",
+						"            entry = dictionary[k]",
+						"        else if k == len(dictionary):",
+						"            entry = w + w[0]",
+						"        else:",
+						"            return None",
+						"        result += entry",
+						"        dictionary[len(dictionary)] = w + entry[0]",
+						"        w = entry",
+						"    return result"
+					],
+					"usage": [
+						"Lossless data compression (e.g., GIF, TIFF images)",
+						"Compressing text and binary files",
+						"Optimizing storage in file systems",
+						"Reducing bandwidth in network communication"
+					]
+				},
+				{
+					"name": "Run-Length Encoding (RLE)",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function RLEEncode(text):",
+						"    if not text:",
+						"        return ''",
+						"    encoded = ''",
+						"    count = 1",
+						"    for i = 1 to length(text):",
+						"        if text[i] == text[i - 1]:",
+						"            count += 1",
+						"        else:",
+						"            encoded += str(count) + text[i - 1]",
+						"            count = 1",
+						"    encoded += str(count) + text[-1]",
+						"    return encoded",
+						"",
+						"function RLEDecode(encoded):",
+						"    decoded = ''",
+						"    i = 0",
+						"    while i < length(encoded):",
+						"        count = ''",
+						"        while encoded[i].isdigit():",
+						"            count += encoded[i]",
+						"            i += 1",
+						"        decoded += encoded[i] * int(count)",
+						"        i += 1",
+						"    return decoded"
+					],
+					"usage": [
+						"Simple lossless compression for repetitive data",
+						"Image compression (e.g., BMP, PCX formats)",
+						"Compressing fax transmissions",
+						"Optimizing storage for binary data"
+					]
+				},
+				{
+					"name": "Deflate Algorithm",
+					"complexity": {
+						"time": "O(n)",
+						"space": "O(n)"
+					},
+					"pseudocode": [
+						"function deflateCompress(data):",
+						"    // Combines LZ77 and Huffman Coding",
+						"    lz77Result = LZ77Compress(data)",
+						"    huffmanResult = HuffmanCompress(lz77Result)",
+						"    return huffmanResult",
+						"",
+						"function LZ77Compress(data):",
+						"    result = []",
+						"    i = 0",
+						"    while i < length(data):",
+						"        maxLength = 0",
+						"        bestOffset = 0",
+						"        for offset = 1 to min(i, 32768):",
+						"            length = 0",
+						"            while i + length < length(data) and data[i + length] == data[i - offset + length]:",
+						"                length += 1",
+						"            if length > maxLength:",
+						"                maxLength = length",
+						"                bestOffset = offset",
+						"        if maxLength >= 3:",
+						"            result.append((bestOffset, maxLength, data[i + maxLength]))",
+						"            i += maxLength + 1",
+						"        else:",
+						"            result.append((0, 0, data[i]))",
+						"            i += 1",
+						"    return result",
+						"",
+						"function deflateDecompress(compressed):",
+						"    lz77Result = HuffmanDecompress(compressed)",
+						"    return LZ77Decompress(lz77Result)"
+					],
+					"usage": [
+						"General-purpose lossless data compression (e.g., ZIP, PNG)",
+						"Reducing file sizes for storage and transmission",
+						"Optimizing web content delivery",
+						"Compressing logs and text files"
+					]
+				}
+			]
+		},
+		{
+			"category": "Cryptographic Algorithms",
+			"algorithms": [
+				{
+					"name": "RSA",
+					"complexity": {
+						"key_generation": "O(k^3) for key size k",
+						"encryption": "O(k^2)",
+						"decryption": "O(k^2)"
+					},
+					"pseudocode": [
+						"function generateKeys(keySize):",
+						"    p = generateLargePrime(keySize // 2)",
+						"    q = generateLargePrime(keySize // 2)",
+						"    n = p * q",
+						"    phi = (p - 1) * (q - 1)",
+						"    e = chooseCoprime(phi)",
+						"    d = modInverse(e, phi)",
+						"    publicKey = (e, n)",
+						"    privateKey = (d, n)",
+						"    return (publicKey, privateKey)",
+						"",
+						"function encrypt(publicKey, plaintext):",
+						"    e, n = publicKey",
+						"    ciphertext = (plaintext^e) mod n",
+						"    return ciphertext",
+						"",
+						"function decrypt(privateKey, ciphertext):",
+						"    d, n = privateKey",
+						"    plaintext = (ciphertext^d) mod n",
+						"    return plaintext",
+						"",
+						"function generateLargePrime(bits):",
+						"    while True:",
+						"        p = randomNumber(bits)",
+						"        if isPrime(p):",
+						"            return p",
+						"",
+						"function modInverse(e, phi):",
+						"    // Extended Euclidean Algorithm",
+						"    x, y, gcd = extendedGCD(e, phi)",
+						"    if gcd != 1:",
+						"        return None",
+						"    return x % phi"
+					],
+					"usage": [
+						"Secure communication over insecure channels (e.g., TLS/SSL)",
+						"Digital signatures for authentication",
+						"Encrypting sensitive data like passwords and financial transactions",
+						"Key exchange protocols"
+					]
+				},
+				{
+					"name": "AES",
+					"complexity": {
+						"encryption": "O(1) per block (fixed time for 128-bit blocks)",
+						"decryption": "O(1) per block"
+					},
+					"pseudocode": [
+						"function AESEncrypt(plaintext, key):",
+						"    state = plaintext",
+						"    keySchedule = keyExpansion(key)",
+						"    addRoundKey(state, keySchedule[0])",
+						"    for round = 1 to Nr-1:",
+						"        subBytes(state)",
+						"        shiftRows(state)",
+						"        mixColumns(state)",
+						"        addRoundKey(state, keySchedule[round])",
+						"    subBytes(state)",
+						"    shiftRows(state)",
+						"    addRoundKey(state, keySchedule[Nr])",
+						"    return state",
+						"",
+						"function AESDecrypt(ciphertext, key):",
+						"    state = ciphertext",
+						"    keySchedule = keyExpansion(key)",
+						"    addRoundKey(state, keySchedule[Nr])",
+						"    for round = Nr-1 to 1:",
+						"        invShiftRows(state)",
+						"        invSubBytes(state)",
+						"        addRoundKey(state, keySchedule[round])",
+						"        invMixColumns(state)",
+						"    invShiftRows(state)",
+						"    invSubBytes(state)",
+						"    addRoundKey(state, keySchedule[0])",
+						"    return state"
+					],
+					"usage": [
+						"Encrypting sensitive data in databases",
+						"Securing wireless communications (e.g., Wi-Fi)",
+						"File encryption for storage and transmission",
+						"Government and military communications"
+					]
+				},
+				{
+					"name": "DES",
+					"complexity": {
+						"encryption": "O(1) per block (fixed time for 64-bit blocks)",
+						"decryption": "O(1) per block"
+					},
+					"pseudocode": [
+						"function DESEncrypt(plaintext, key):",
+						"    permutedText = initialPermutation(plaintext)",
+						"    left, right = split(permutedText, 32)",
+						"    for round = 0 to 15:",
+						"        roundKey = generateRoundKey(key, round)",
+						"        newLeft = right",
+						"        newRight = left ^ feistel(right, roundKey)",
+						"        left, right = newLeft, newRight",
+						"    preOutput = swap(left, right)",
+						"    ciphertext = finalPermutation(preOutput)",
+						"    return ciphertext",
+						"",
+						"function feistel(right, roundKey):",
+						"    expandedRight = expand(right, 32, 48)",
+						"    xorResult = expandedRight ^ roundKey",
+						"    substituted = substitute(xorResult)",
+						"    permuted = permute(substituted)",
+						"    return permuted"
+					],
+					"usage": [
+						"Legacy systems for data encryption",
+						"Financial transactions (though largely replaced by AES)",
+						"Secure storage of sensitive information",
+						"Encryption in older communication protocols"
+					]
+				},
+				{
+					"name": "SHA-256",
+					"complexity": {
+						"hashing": "O(n) for input size n"
+					},
+					"pseudocode": [
+						"function SHA256(message):",
+						"    preProcess(message)",
+						"    H0 = initialHashValues()",
+						"    for chunk in messageChunks:",
+						"        schedule = messageSchedule(chunk)",
+						"        a, b, c, d, e, f, g, h = H0",
+						"        for t = 0 to 63:",
+						"            T1 = h + Σ1(e) + Ch(e, f, g) + K[t] + schedule[t]",
+						"            T2 = Σ0(a) + Maj(a, b, c)",
+						"            h = g",
+						"            g = f",
+						"            f = e",
+						"            e = d + T1",
+						"            d = c",
+						"            c = b",
+						"            b = a",
+						"            a = T1 + T2",
+						"        H0 = (H0 + [a, b, c, d, e, f, g, h]) mod 2^32",
+						"    return concatenate(H0)"
+					],
+					"usage": [
+						"Digital signatures and certificates",
+						"Password hashing for secure storage",
+						"Blockchain technology for transaction verification",
+						"Data integrity checks in file systems"
+					]
+				}
+			]
+		},
+		{
+			"category": "Machine Learning Algorithms",
+			"algorithms": [
+				{
+					"name": "Linear Regression",
+					"complexity": {
+						"training": "O(n * m) for n samples and m features"
+					},
+					"pseudocode": [
+						"function linearRegression(X, y, learningRate, epochs):",
+						"    m, n = shape(X)",
+						"    theta = zeros(n + 1)",
+						"    X = addBias(X)",
+						"    for epoch in epochs:",
+						"        predictions = X.dot(theta)",
+						"        errors = predictions - y",
+						"        gradient = X.T.dot(errors) / m",
+						"        theta -= learningRate * gradient",
+						"    return theta",
+						"",
+						"function addBias(X):",
+						"    return concatenate(ones((shape(X)[0], 1)), X, axis=1)"
+					],
+					"usage": [
+						"Predicting continuous outcomes (e.g., house prices, sales)",
+						"Trend analysis in business and economics",
+						"Risk assessment in finance",
+						"Demand forecasting in supply chain management"
+					]
+				},
+				{
+					"name": "Logistic Regression",
+					"complexity": {
+						"training": "O(n * m) for n samples and m features"
+					},
+					"pseudocode": [
+						"function logisticRegression(X, y, learningRate, epochs):",
+						"    m, n = shape(X)",
+						"    theta = zeros(n + 1)",
+						"    X = addBias(X)",
+						"    for epoch in epochs:",
+						"        z = X.dot(theta)",
+						"        h = sigmoid(z)",
+						"        errors = h - y",
+						"        gradient = X.T.dot(errors) / m",
+						"        theta -= learningRate * gradient",
+						"    return theta",
+						"",
+						"function sigmoid(z):",
+						"    return 1 / (1 + exp(-z))"
+					],
+					"usage": [
+						"Binary classification tasks (e.g., spam detection, medical diagnosis)",
+						"Customer churn prediction",
+						"Credit scoring in financial services",
+						"Marketing campaign success prediction"
+					]
+				},
+				{
+					"name": "Decision Trees",
+					"complexity": {
+						"training": "O(n * m * log(n)) for n samples and m features"
+					},
+					"pseudocode": [
+						"function buildTree(X, y, depth=0, maxDepth=None):",
+						"    if maxDepth and depth >= maxDepth:",
+						"        return LeafNode(mostCommon(y))",
+						"    if allSame(y):",
+						"        return LeafNode(y[0])",
+						"    bestFeature, bestThreshold = findBestSplit(X, y)",
+						"    if not bestFeature:",
+						"        return LeafNode(mostCommon(y))",
+						"    leftIndices = X[bestFeature] <= bestThreshold",
+						"    rightIndices = ~leftIndices",
+						"    leftSubtree = buildTree(X[leftIndices], y[leftIndices], depth + 1, maxDepth)",
+						"    rightSubtree = buildTree(X[rightIndices], y[rightIndices], depth + 1, maxDepth)",
+						"    return DecisionNode(bestFeature, bestThreshold, leftSubtree, rightSubtree)",
+						"",
+						"function findBestSplit(X, y):",
+						"    bestGini = float('inf')",
+						"    for feature in features(X):",
+						"        for threshold in unique(X[feature]):",
+						"            gini = calculateGini(X, y, feature, threshold)",
+						"            if gini < bestGini:",
+						"                bestGini = gini",
+						"                bestFeature = feature",
+						"                bestThreshold = threshold",
+						"    return (bestFeature, bestThreshold)"
+					],
+					"usage": [
+						"Classification and regression tasks",
+						"Feature selection and interpretability",
+						"Customer segmentation in marketing",
+						"Medical diagnosis and decision making"
+					]
+				},
+				{
+					"name": "Random Forest",
+					"complexity": {
+						"training": "O(n * m * T) for n samples, m features, and T trees"
+					},
+					"pseudocode": [
+						"function randomForest(X, y, nTrees, maxDepth):",
+						"    trees = []",
+						"    for _ in range(nTrees):",
+						"        XSample, ySample = bootstrapSample(X, y)",
+						"        tree = buildTree(XSample, ySample, maxDepth=maxDepth)",
+						"        trees.append(tree)",
+						"    return trees",
+						"",
+						"function predict(trees, X):",
+						"    predictions = []",
+						"    for tree in trees:",
+						"        predictions.append(tree.predict(X))",
+						"    return mode(predictions)",
+						"",
+						"function bootstrapSample(X, y):",
+						"    nSamples = shape(X)[0]",
+						"    indices = randomChoices(range(nSamples), size=nSamples, replace=True)",
+						"    return X[indices], y[indices]"
+					],
+					"usage": [
+						"High-accuracy classification and regression",
+						"Handling large datasets with many features",
+						"Feature importance analysis",
+						"Fraud detection in financial transactions"
+					]
+				},
+				{
+					"name": "Support Vector Machines",
+					"complexity": {
+						"training": "O(n^2 * m) to O(n^3 * m) for n samples and m features"
+					},
+					"pseudocode": [
+						"function SVM(X, y, C, kernel):",
+						"    nSamples, nFeatures = shape(X)",
+						"    K = kernelMatrix(X, kernel)",
+						"    P = outer(y, y) * K",
+						"    q = -ones(nSamples)",
+						"    G = concatenate(-eye(nSamples), eye(nSamples))",
+						"    h = concatenate(zeros(nSamples), C * ones(nSamples))",
+						"    A = y.reshape(1, -1)",
+						"    b = zeros(1)",
+						"    solution = quadraticProgramming(P, q, G, h, A, b)",
+						"    alphas = solution[:nSamples]",
+						"    supportVectors = X[alphas > 1e-5]",
+						"    return alphas, supportVectors",
+						"",
+						"function kernelMatrix(X, kernel):",
+						"    nSamples = shape(X)[0]",
+						"    K = zeros((nSamples, nSamples))",
+						"    for i in range(nSamples):",
+						"        for j in range(nSamples):",
+						"            K[i, j] = kernel(X[i], X[j])",
+						"    return K"
+					],
+					"usage": [
+						"High-dimensional data classification",
+						"Image recognition and text categorization",
+						"Bioinformatics for gene expression analysis",
+						"Handwritten digit recognition"
+					]
+				},
+				{
+					"name": "K-Means Clustering",
+					"complexity": {
+						"training": "O(n * k * I * m) for n samples, k clusters, I iterations, and m features"
+					},
+					"pseudocode": [
+						"function kMeans(X, k, maxIterations):",
+						"    centroids = randomCentroids(X, k)",
+						"    for _ in range(maxIterations):",
+						"        clusters = assignClusters(X, centroids)",
+						"        newCentroids = updateCentroids(X, clusters, k)",
+						"        if centroidsEqual(centroids, newCentroids):",
+						"            break",
+						"        centroids = newCentroids",
+						"    return clusters, centroids",
+						"",
+						"function assignClusters(X, centroids):",
+						"    clusters = []",
+						"    for x in X:",
+						"        distances = [distance(x, c) for c in centroids]",
+						"        clusters.append(argmin(distances))",
+						"    return clusters"
+					],
+					"usage": [
+						"Customer segmentation in marketing",
+						"Image compression and segmentation",
+						"Anomaly detection in network traffic",
+						"Document clustering in NLP"
+					]
+				}
+			]
+		},
+		{
+			"category": "Optimization Algorithms",
+			"algorithms": [
+				{
+					"name": "Gradient Descent",
+					"complexity": {
+						"per_iteration": "O(n * m) for n samples and m features"
+					},
+					"pseudocode": [
+						"function gradientDescent(X, y, learningRate, epochs):",
+						"    m, n = shape(X)",
+						"    theta = zeros(n + 1)",
+						"    X = addBias(X)",
+						"    for _ in range(epochs):",
+						"        predictions = X.dot(theta)",
+						"        errors = predictions - y",
+						"        gradient = X.T.dot(errors) / m",
+						"        theta -= learningRate * gradient",
+						"    return theta"
+					],
+					"usage": [
+						"Minimizing loss functions in machine learning",
+						"Training linear and logistic regression models",
+						"Neural network weight optimization",
+						"Parameter tuning in various algorithms"
+					]
+				},
+				{
+					"name": "Simulated Annealing",
+					"complexity": {
+						"per_iteration": "O(1) for evaluation, O(n) for n iterations"
+					},
+					"pseudocode": [
+						"function simulatedAnnealing(objective, initialSolution, temp, coolingRate):",
+						"    currentSolution = initialSolution",
+						"    currentEnergy = objective(currentSolution)",
+						"    while temp > 1:",
+						"        neighbor = randomNeighbor(currentSolution)",
+						"        neighborEnergy = objective(neighbor)",
+						"        if neighborEnergy < currentEnergy or random() < exp((currentEnergy - neighborEnergy) / temp):",
+						"            currentSolution = neighbor",
+						"            currentEnergy = neighborEnergy",
+						"        temp *= coolingRate",
+						"    return currentSolution"
+					],
+					"usage": [
+						"Global optimization in complex landscapes",
+						"Traveling Salesman Problem (TSP)",
+						"Circuit design and VLSI layout",
+						"Job scheduling and resource allocation"
+					]
+				},
+				{
+					"name": "Genetic Algorithms",
+					"complexity": {
+						"per_generation": "O(p * n) for population size p and n evaluations"
+					},
+					"pseudocode": [
+						"function geneticAlgorithm(objective, populationSize, generations):",
+						"    population = initializePopulation(populationSize)",
+						"    for _ in range(generations):",
+						"        fitness = [objective(ind) for ind in population]",
+						"        parents = selectParents(population, fitness)",
+						"        offspring = crossover(parents)",
+						"        offspring = mutate(offspring)",
+						"        population = offspring",
+						"    bestIndividual = argmin([objective(ind) for ind in population])",
+						"    return population[bestIndividual]"
+					],
+					"usage": [
+						"Optimizing complex, non-differentiable functions",
+						"Feature selection in machine learning",
+						"Robot path planning",
+						"Neural network architecture search"
+					]
+				},
+				{
+					"name": "Particle Swarm Optimization",
+					"complexity": {
+						"per_iteration": "O(p * n) for population size p and n dimensions"
+					},
+					"pseudocode": [
+						"function PSO(objective, nParticles, dimensions, iterations):",
+						"    particles = initializeParticles(nParticles, dimensions)",
+						"    globalBest = None",
+						"    globalBestValue = float('inf')",
+						"    for _ in range(iterations):",
+						"        for particle in particles:",
+						"            value = objective(particle.position)",
+						"            if value < particle.bestValue:",
+						"                particle.bestPosition = particle.position",
+						"                particle.bestValue = value",
+						"            if value < globalBestValue:",
+						"                globalBest = particle.position",
+						"                globalBestValue = value",
+						"        for particle in particles:",
+						"            updateVelocity(particle, globalBest)",
+						"            updatePosition(particle)",
+						"    return globalBest, globalBestValue"
+					],
+					"usage": [
+						"Optimizing continuous and discrete problems",
+						"Neural network training",
+						"Feature selection in high-dimensional data",
+						"Robotics for path planning and control"
+					]
+				}
+			]
+		},
+		{
+			"category": "Numerical Algorithms",
+			"algorithms": [
+				{
+					"name": "Newton-Raphson Method",
+					"complexity": {
+						"per_iteration": "O(1) for function evaluation and derivative"
+					},
+					"pseudocode": [
+						"function newtonRaphson(f, df, x0, tol, maxIter):",
+						"    x = x0",
+						"    for _ in range(maxIter):",
+						"        fx = f(x)",
+						"        if abs(fx) < tol:",
+						"            return x",
+						"        dfx = df(x)",
+						"        if dfx == 0:",
+						"            return None  // Derivative zero, method fails",
+						"        x = x - fx / dfx",
+						"    return x  // Return best approximation if not converged"
+					],
+					"usage": [
+						"Finding roots of real-valued functions",
+						"Optimization in engineering and physics",
+						"Solving nonlinear equations in scientific computing",
+						"Machine learning for optimization (e.g., logistic regression)"
+					]
+				},
+				{
+					"name": "Gaussian Elimination",
+					"complexity": {
+						"time": "O(n^3) for an n x n matrix"
+					},
+					"pseudocode": [
+						"function gaussianElimination(A, b):",
+						"    n = length(b)",
+						"    for k = 0 to n - 1:",
+						"        for i = k + 1 to n - 1:",
+						"            factor = A[i][k] / A[k][k]",
+						"            for j = k to n - 1:",
+						"                A[i][j] -= factor * A[k][j]",
+						"            b[i] -= factor * b[k]",
+						"    x = array of size n",
+						"    for i = n - 1 down to 0:",
+						"        x[i] = b[i]",
+						"        for j = i + 1 to n - 1:",
+						"            x[i] -= A[i][j] * x[j]",
+						"        x[i] /= A[i][i]",
+						"    return x"
+					],
+					"usage": [
+						"Solving systems of linear equations",
+						"Inverting matrices",
+						"Computational fluid dynamics (CFD)",
+						"Structural analysis in engineering"
+					]
+				},
+				{
+					"name": "Monte Carlo Simulation",
+					"complexity": {
+						"per_simulation": "O(1) for simple simulations, O(n) for complex ones"
+					},
+					"pseudocode": [
+						"function monteCarloSimulation(trials, function):",
+						"    results = []",
+						"    for _ in range(trials):",
+						"        randomInput = generateRandomInput()",
+						"        results.append(function(randomInput))",
+						"    return mean(results), variance(results)"
+					],
+					"usage": [
+						"Risk analysis in finance",
+						"Estimating numerical results (e.g., π)",
+						"Project management for uncertainty analysis",
+						"Physics simulations (e.g., particle transport)"
+					]
+				},
+				{
+					"name": "Trapezoidal Rule",
+					"complexity": {
+						"time": "O(n) for n intervals"
+					},
+					"pseudocode": [
+						"function trapezoidalRule(f, a, b, n):",
+						"    h = (b - a) / n",
+						"    integral = (f(a) + f(b)) / 2",
+						"    for i = 1 to n - 1:",
+						"        integral += f(a + i * h)",
+						"    integral *= h",
+						"    return integral"
+					],
+					"usage": [
+						"Numerical integration in calculus",
+						"Approximating definite integrals",
+						"Engineering for area and volume calculations",
+						"Physics simulations for work and energy calculations"
+					]
+				}
+			]
+		},
+		{
+			"category": "Parallel Algorithms",
+			"algorithms": [
+				{
+					"name": "MapReduce",
+					"complexity": {
+						"time": "O(n) for n data points, with parallel speedup"
+					},
+					"pseudocode": [
+						"function mapReduce(data, mapFunc, reduceFunc):",
+						"    // Map Phase: Parallelizable",
+						"    mapped = parallelMap(data, mapFunc)",
+						"    // Shuffle Phase: Group by key",
+						"    shuffled = shuffle(mapped)",
+						"    // Reduce Phase: Parallelizable",
+						"    reduced = parallelReduce(shuffled, reduceFunc)",
+						"    return reduced"
+					],
+					"usage": [
+						"Big data processing (e.g., Hadoop, Spark)",
+						"Distributed computing for large datasets",
+						"Log analysis and aggregation",
+						"Web indexing and search engines"
+					]
+				},
+				{
+					"name": "Fork-Join",
+					"complexity": {
+						"time": "O(n) for n tasks, with parallel speedup"
+					},
+					"pseudocode": [
+						"function forkJoin(task):",
+						"    if task is small enough:",
+						"        return sequentialExecute(task)",
+						"    else:",
+						"        subtasks = split(task)",
+						"        results = parallelMap(subtasks, forkJoin)",
+						"        return join(results)"
+					],
+					"usage": [
+						"Parallelizing recursive algorithms (e.g., merge sort, quick sort)",
+						"Divide-and-conquer problems in multi-core systems",
+						"Image processing for parallel pixel operations",
+						"High-performance computing (HPC) applications"
+					]
+				},
+				{
+					"name": "Parallel Quick Sort",
+					"complexity": {
+						"time": "O(n log n) average, with parallel speedup"
+					},
+					"pseudocode": [
+						"function parallelQuickSort(arr):",
+						"    if length(arr) <= threshold:",
+						"        return quickSort(arr)",
+						"    pivot = arr[randomIndex(arr)]",
+						"    left = [x for x in arr if x < pivot]",
+						"    right = [x for x in arr if x > pivot]",
+						"    leftSorted, rightSorted = parallel(parallelQuickSort(left), parallelQuickSort(right))",
+						"    return leftSorted + [pivot] + rightSorted"
+					],
+					"usage": [
+						"Sorting large datasets in parallel",
+						"Database query optimization",
+						"High-performance computing applications",
+						"Real-time data processing"
+					]
+				},
+				{
+					"name": "Parallel Matrix Multiplication",
+					"complexity": {
+						"time": "O(n^3) for n x n matrices, with parallel speedup"
+					},
+					"pseudocode": [
+						"function parallelMatrixMultiply(A, B):",
+						"    n = rows(A)",
+						"    C = zeroMatrix(n, n)",
+						"    for i = 0 to n - 1:",
+						"        for j = 0 to n - 1:",
+						"            C[i][j] = parallelSum([A[i][k] * B[k][j] for k in range(n)])",
+						"    return C"
+					],
+					"usage": [
+						"Scientific computing for large-scale simulations",
+						"Machine learning for neural network training",
+						"Computer graphics for transformations",
+						"High-performance linear algebra libraries"
+					]
+				}
+			]
+		},
+		{
+			"category": "Distributed Algorithms",
+			"algorithms": [
+				{
+					"name": "Paxos",
+					"complexity": {
+						"time": "O(n) message exchanges for n nodes"
+					},
+					"pseudocode": [
+						"// Proposer",
+						"function propose(value):",
+						"    promiseCount = 0",
+						"    for acceptor in acceptors:",
+						"        send(prepare(requestId))",
+						"    while promiseCount < majority:",
+						"        if receive(promise(requestId, previousId, previousValue)):",
+						"            promiseCount += 1",
+						"            if previousId != null:",
+						"                value = previousValue",
+						"    if promiseCount >= majority:",
+						"        acceptCount = 0",
+						"        for acceptor in acceptors:",
+						"            send(accept(requestId, value))",
+						"        while acceptCount < majority:",
+						"            if receive(accepted(requestId)):",
+						"                acceptCount += 1",
+						"        return success",
+						"",
+						"// Acceptor",
+						"function onPrepare(requestId):",
+						"    if requestId > lastPromiseId:",
+						"        lastPromiseId = requestId",
+						"        send(promise(requestId, lastAcceptId, lastAcceptValue))",
+						"",
+						"function onAccept(requestId, value):",
+						"    if requestId >= lastPromiseId:",
+						"        lastAcceptId = requestId",
+						"        lastAcceptValue = value",
+						"        send(accepted(requestId))"
+					],
+					"usage": [
+						"Consensus in distributed systems (e.g., databases, cloud storage)",
+						"Fault-tolerant state machine replication",
+						"Distributed coordination services (e.g., Chubby, ZooKeeper)",
+						"Blockchain and distributed ledger technologies"
+					]
+				},
+				{
+					"name": "Raft",
+					"complexity": {
+						"time": "O(n) message exchanges for n nodes"
+					},
+					"pseudocode": [
+						"// Leader Election",
+						"function startElection():",
+						"    increment currentTerm",
+						"    voteFor = self",
+						"    votesReceived = 1",
+						"    for server in servers:",
+						"        send(requestVote(currentTerm, candidateId))",
+						"    while True:",
+						"        if receive(voteResponse(term, voteGranted)):",
+						"            if term > currentTerm:",
+						"                becomeFollower(term)",
+						"                return",
+						"            if voteGranted:",
+						"                votesReceived += 1",
+						"            if votesReceived >= majority:",
+						"                becomeLeader()",
+						"                return",
+						"",
+						"// Log Replication",
+						"function appendEntries(entries):",
+						"    send(appendEntries(currentTerm, leaderId, prevLogIndex, prevLogTerm, entries))",
+						"    while True:",
+						"        if receive(appendResponse(term, success)):",
+						"            if term > currentTerm:",
+						"                becomeFollower(term)",
+						"                return",
+						"            if success:",
+						"                return",
+						"            else:",
+						"                decrement nextIndex[follower]",
+						"                retry appendEntries"
+					],
+					"usage": [
+						"Consensus in distributed systems (e.g., etcd, Consul)",
+						"Fault-tolerant distributed databases",
+						"Distributed coordination and configuration management",
+						"Replicated state machines for high availability"
+					]
+				},
+				{
+					"name": "Two-Phase Commit",
+					"complexity": {
+						"time": "O(n) message exchanges for n participants"
+					},
+					"pseudocode": [
+						"// Coordinator",
+						"function commit():",
+						"    send(prepare()) to all participants",
+						"    while True:",
+						"        if all participants respond yes:",
+						"            send(commit()) to all participants",
+						"            return success",
+						"        if any participant responds no:",
+						"            send(abort()) to all participants",
+						"            return failure",
+						"",
+						"// Participant",
+						"function onPrepare():",
+						"    if canCommit():",
+						"        send(yes()) to coordinator",
+						"    else:",
+						"        send(no()) to coordinator",
+						"",
+						"function onCommit():",
+						"    commitTransaction()",
+						"    send(ack()) to coordinator",
+						"",
+						"function onAbort():",
+						"    abortTransaction()",
+						"    send(ack()) to coordinator"
+					],
+					"usage": [
+						"Distributed transaction processing (e.g., databases)",
+						"Ensuring atomicity in distributed systems",
+						"Financial systems for consistent transactions",
+						"Multi-service architectures for data consistency"
+					]
+				},
+				{
+					"name": "Gossip Protocol",
+					"complexity": {
+						"time": "O(log n) rounds for n nodes"
+					},
+					"pseudocode": [
+						"function gossip(node, message, maxRounds):",
+						"    round = 0",
+						"    while round < maxRounds:",
+						"        neighbor = randomNeighbor(node)",
+						"        send(message, neighbor)",
+						"        round += 1",
+						"",
+						"function onReceive(message):",
+						"    if not seen(message):",
+						"        store(message)",
+						"        gossip(self, message, maxRounds)"
+					],
+					"usage": [
+						"Information dissemination in peer-to-peer networks",
+						"Distributed databases for data propagation",
+						"Failure detection in large-scale systems",
+						"Blockchain networks for block propagation"
+					]
+				}
+			]
+		}
+	],
+	"All Algoe": [
+		"Sorting Algorithms: Quick Sort, Merge Sort, Heap Sort, Bubble Sort, Insertion Sort, Selection Sort.",
+		"Searching Algorithms: Binary Search, Linear Search, Depth-First Search (DFS), Breadth-First Search (BFS).",
+		"Tree Algorithms: BST Operations, Tree Traversals (Inorder, Preorder, Postorder, Level Order).",
+		"Graph Algorithms: DFS, BFS, Dijkstra's Algorithm, Bellman-Ford Algorithm.",
+		"Hashing: Chaining, Open Addressing, Double Hashing, Cuckoo Hashing.",
+		"Dynamic Programming: Fibonacci Sequence, Knapsack Problem, Longest Common Subsequence, Matrix Chain Multiplication, Coin Change Problem.",
+		"Greedy Algorithms: Huffman Coding, Prim's Algorithm, Kruskal's Algorithm, Activity Selection Problem, Fractional Knapsack Problem.",
+		"Backtracking: N-Queens Problem, Sudoku Solver, Hamiltonian Cycle, Subset Sum Problem.",
+		"String Algorithms: KMP Algorithm, Rabin-Karp Algorithm, Z Algorithm, Suffix Array Construction.",
+		"Mathematical Algorithms: Euclidean Algorithm, Sieve of Eratosthenes, Fast Exponentiation, Chinese Remainder Theorem.",
+		"Computational Geometry: Convex Hull, Line Intersection, Closest Pair of Points, Voronoi Diagram.",
+		"Network Flow Algorithms: Ford-Fulkerson Method, Edmonds-Karp Algorithm, Dinic's Algorithm, Push-Relabel Algorithm.",
+		"String Matching Algorithms: Naive String Matching, KMP Algorithm, Rabin-Karp Algorithm, Boyer-Moore Algorithm.",
+		"Compression Algorithms: Huffman Coding, Lempel-Ziv-Welch (LZW), Run-Length Encoding, Deflate Algorithm.",
+		"Cryptographic Algorithms: RSA, AES, DES, SHA-256.",
+		"Machine Learning Algorithms: Linear Regression, Logistic Regression, Decision Trees, Random Forest, Support Vector Machines, K-Means Clustering.",
+		"Optimization Algorithms: Gradient Descent, Simulated Annealing, Genetic Algorithms, Particle Swarm Optimization.",
+		"Numerical Algorithms: Newton-Raphson Method, Gaussian Elimination, Monte Carlo Simulation, Trapezoidal Rule.",
+		"Parallel Algorithms: MapReduce, Fork-Join, Parallel Quick Sort, Parallel Matrix Multiplication.",
+		"Distributed Algorithms: Paxos, Raft, Two-Phase Commit, Gossip Protocol."
+	]
+}
