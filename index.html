@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AlgoMaster Pro – JSON Error Fixed</title>
+<title>AlgoMaster Pro</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
 <style>
@@ -12,13 +12,12 @@
     .sidebar{width:320px;background:#2c3e50;color:#ecf0f1;display:flex;flex-direction:column;overflow:hidden}
     .sidebar-header{padding:20px 20px 10px}
     .sidebar h2{font-size:1.3em;text-align:center;margin-bottom:10px}
-    .upload-btn,.btn-small{display:block;width:100%;padding:10px;background:#3498db;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;text-align:center;margin-bottom:10px}
-    .upload-btn:hover,.btn-small:hover{background:#2980b9}
-    #fileInput{display:none}
+    .btn-small{display:block;width:100%;padding:10px;background:#3498db;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;text-align:center;margin-bottom:10px}
+    .btn-small:hover{background:#2980b9}
     .search-box{width:100%;padding:10px;border-radius:6px;border:1px solid #34495e;background:#34495e;color:#fff;margin-bottom:10px}
     .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-    .btn-small{padding:6px 10px;font-size:0.85em;background:#34495e}
-    .btn-small:hover{background:#3d566e}
+    .btn-small.small{padding:6px 10px;font-size:0.85em;background:#34495e}
+    .btn-small.small:hover{background:#3d566e}
     .nav{flex:1;overflow-y:auto;padding:0 20px 20px}
     .section{margin:10px 0}
     .section>h3{background:#34495e;padding:10px;border-radius:5px;cursor:pointer;font-size:0.95em;user-select:none;display:flex;justify-content:space-between;align-items:center}
@@ -53,13 +52,11 @@
     <div class="sidebar">
         <div class="sidebar-header">
             <h2>AlgoMaster Pro</h2>
-            <button class="upload-btn" id="uploadBtn">Upload JSON</button>
-            <input type="file" id="fileInput" accept=".json">
-            <input type="text" id="searchBox" class="search-box" placeholder="Search...">
+            <input type="text" id="searchBox" class="search-box" placeholder="Search algorithms...">
             <div class="controls">
-                <button class="btn-small" id="themeBtn">Dark</button>
-                <button class="btn-small" id="compareBtn">Compare</button>
-                <button class="btn-small" id="showCompareBtn" style="display:none">Show Comparison</button>
+                <button class="btn-small small" id="themeBtn">Dark</button>
+                <button class="btn-small small" id="compareBtn">Compare</button>
+                <button class="btn-small small" id="showCompareBtn" style="display:none">Show Comparison</button>
             </div>
         </div>
         <div id="nav" class="nav"></div>
@@ -68,7 +65,7 @@
     <!-- MAIN -->
     <div class="main">
         <div id="content">
-            <p class="no-data">Upload a valid <code>.json</code> file to begin.</p>
+            <p class="no-data">Loading algorithms...</p>
         </div>
         <div id="comparePanel" class="compare-panel"></div>
     </div>
@@ -76,6 +73,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
 <script>
+// Static JSON data will be loaded from local file
 let jsonData = null;
 let allNavItems = [];
 let selectedForCompare = [];
@@ -85,37 +83,17 @@ const contentDiv = document.getElementById('content');
 const comparePanel = document.getElementById('comparePanel');
 const searchBox = document.getElementById('searchBox');
 
-/* ---------- UPLOAD WITH VALIDATION ---------- */
-document.getElementById('uploadBtn').onclick = () => document.getElementById('fileInput').click();
-document.getElementById('fileInput').onchange = e => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // Check file extension
-    if (!file.name.toLowerCase().endsWith('.json')) {
-        showError('Please upload a <strong>.json</strong> file (not HTML, TXT, etc.)');
-        return;
+/* ---------- LOAD LOCAL JSON ---------- */
+async function loadLocalJSON() {
+    try {
+        const response = await fetch('algorithms.json');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        jsonData = await response.json();
+        buildUI();
+    } catch (err) {
+        showError(`Failed to load <code>algorithms.json</code><br><br>Error: ${err.message}<br><br>Make sure the file exists in the same folder.`);
     }
-
-    const reader = new FileReader();
-    reader.onload = ev => {
-        const text = ev.target.result.trim();
-
-        // Prevent HTML files
-        if (text.startsWith('<!DOCTYPE') || text.startsWith('<html') || text.includes('<head')) {
-            showError('Invalid file: This is an <strong>HTML</strong> file, not JSON.<br><br>Save your data as <code>algorithms.json</code> with valid JSON format.');
-            return;
-        }
-
-        try {
-            jsonData = JSON.parse(text);
-            buildUI();
-        } catch (err) {
-            showError(`Invalid JSON: ${err.message}<br><br>Make sure your file contains valid JSON (e.g., starts with <code>{</code> or <code>[</code>).`);
-        }
-    };
-    reader.readAsText(file);
-};
+}
 
 /* ---------- SEARCH ---------- */
 searchBox.oninput = () => {
@@ -148,8 +126,6 @@ document.getElementById('compareBtn').onclick = () => {
         document.querySelectorAll('.item.compare-select').forEach(el => el.classList.remove('compare-select'));
         document.getElementById('showCompareBtn').style.display = 'none';
         comparePanel.classList.remove('active');
-    } else {
-        alert('Click 2 algorithms to compare');
     }
 };
 
@@ -179,9 +155,6 @@ function toggleCompareSelection(item, algo) {
     } else if (idx !== -1) {
         selectedForCompare.splice(idx, 1);
         item.classList.remove('compare-select');
-    } else {
-        alert('Only 2 algorithms can be compared');
-        return;
     }
     document.getElementById('showCompareBtn').style.display = selectedForCompare.length === 2 ? 'block' : 'none';
 }
@@ -193,7 +166,7 @@ function renderComparison(algo1, algo2) {
             ${createCompareCard(algo1)}
             ${createCompareCard(algo2)}
         </div>
-        <button class="btn-small" onclick="document.getElementById('comparePanel').classList.remove('active');" style="margin-top:15px">Close</button>
+        <button class="btn-small small" onclick="comparePanel.classList.remove('active');" style="margin-top:15px">Close</button>
     `;
     comparePanel.classList.add('active');
     Prism.highlightAllUnder(comparePanel);
@@ -202,13 +175,9 @@ function renderComparison(algo1, algo2) {
 function createCompareCard(algo) {
     let html = `<div class="compare-card"><div class="name">${escape(algo.name)}</div>`;
     if (algo.complexity) {
-        if (typeof algo.complexity === 'object') {
-            html += `<div class="complexity"><strong>Complexity:</strong><br>` +
-                    Object.entries(algo.complexity).map(([k,v]) => `• <strong>${k}:</strong> ${escape(v)}`).join('<br>') +
-                    `</div>`;
-        } else {
-            html += `<div class="complexity"><strong>Complexity:</strong> ${escape(algo.complexity)}</div>`;
-        }
+        html += `<div class="complexity"><strong>Complexity:</strong><br>` +
+                Object.entries(algo.complexity).map(([k,v]) => `• <strong>${k}:</strong> ${escape(v)}`).join('<br>') +
+                `</div>`;
     }
     const pseudo = getAnyField(algo, ['pseudocode']);
     if (pseudo) {
@@ -229,74 +198,18 @@ function createCompareCard(algo) {
 /* ---------- BUILD UI ---------- */
 function buildUI() {
     navDiv.innerHTML = '';
-    contentDiv.innerHTML = '<p class="no-data">Select an item to view details.</p>';
+    contentDiv.innerHTML = '<p class="no-data">Select an algorithm to view details.</p>';
     allNavItems = [];
     selectedForCompare = [];
-    isCompareMode = false;
 
-    if (jsonData["All Algoe"]) renderOverview();
     if (jsonData.data_structures) renderSection('Data Structures', jsonData.data_structures, 'ds');
     if (jsonData.algorithm_categories) renderSection('Algorithm Categories', jsonData.algorithm_categories, 'algo');
 
-    addMissingAlgorithms();
-}
-
-/* ---------- MISSING ALGORITHMS ---------- */
-function addMissingAlgorithms() {
-    const builtin = [
-        {
-            name: "A* Search Algorithm",
-            complexity: { time: "O(b^d)", space: "O(b^d)" },
-            pseudocode: ["function A*(start, goal):", "    openSet = PriorityQueue...", "..."],
-            usage: ["Pathfinding", "Games"]
-        },
-        {
-            name: "Floyd-Warshall Algorithm",
-            complexity: { time: "O(V^3)", space: "O(V^2)" },
-            pseudocode: ["function FloydWarshall(graph):", "    for k, i, j: update..."],
-            usage: ["All-pairs shortest paths"]
-        }
-    ];
-
-    const sec = createSection('Graph (Built-in)');
-    const list = document.createElement('div'); list.className = 'items active';
-    builtin.forEach((algo, idx) => {
-        const id = `builtin-${idx}`;
-        const item = document.createElement('div');
-        item.className = 'item';
-        item.textContent = algo.name;
-        item.onclick = (e) => handleItemClick(e, item, algo, id);
-        allNavItems.push({ name: algo.name, element: item });
-        list.appendChild(item);
-    });
-    sec.appendChild(list);
-    navDiv.appendChild(sec);
-}
-
-/* ---------- OVERVIEW ---------- */
-function renderOverview() {
-    const sec = createSection('Overview');
-    const list = document.createElement('div'); list.className = 'items active';
-    (jsonData["All Algoe"] || []).forEach(txt => {
-        const [name, desc = ''] = txt.split(':').map(s => s.trim());
-        const item = document.createElement('div');
-        item.className = 'item';
-        item.textContent = name;
-        item.onclick = (e) => {
-            if (isCompareMode) {
-                e.stopPropagation();
-                alert('Use Compare mode to select algorithms');
-            } else {
-                showCard(createOverviewCard(name, desc));
-                document.querySelectorAll('.item.active').forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
-            }
-        };
-        allNavItems.push({ name, element: item });
-        list.appendChild(item);
-    });
-    sec.appendChild(list);
-    navDiv.appendChild(sec);
+    // Auto-select first item
+    setTimeout(() => {
+        const firstItem = document.querySelector('.item');
+        if (firstItem) firstItem.click();
+    }, 100);
 }
 
 /* ---------- SECTION RENDERER ---------- */
@@ -306,32 +219,18 @@ function renderSection(title, categories, prefix) {
         const catName = cat.category || cat.name || 'Unnamed';
         const catDiv = document.createElement('div'); catDiv.className = 'items';
 
-        let children = cat.items || cat.elements || cat.algorithms || [];
-        if (!Array.isArray(children) && children && children.name) children = [children];
+        let children = cat.algorithms || cat.elements || cat.items || [];
+        if (!Array.isArray(children)) children = [children];
 
         children.forEach((algo, aIdx) => {
             if (!algo || !algo.name) return;
-            
-            // Handle nested operations (like BST operations)
-            if (algo.operation && Array.isArray(algo.operation)) {
-                algo.operation.forEach((op, opIdx) => {
-                    const id = `${prefix}-${cIdx}-${aIdx}-${opIdx}`;
-                    const nav = document.createElement('div');
-                    nav.className = 'item';
-                    nav.textContent = op.name;
-                    nav.onclick = (e) => handleItemClick(e, nav, op, id);
-                    allNavItems.push({ name: op.name, element: nav });
-                    catDiv.appendChild(nav);
-                });
-            } else {
-                const id = `${prefix}-${cIdx}-${aIdx}`;
-                const nav = document.createElement('div');
-                nav.className = 'item';
-                nav.textContent = algo.name;
-                nav.onclick = (e) => handleItemClick(e, nav, algo, id);
-                allNavItems.push({ name: algo.name, element: nav });
-                catDiv.appendChild(nav);
-            }
+            const id = `${prefix}-${cIdx}-${aIdx}`;
+            const nav = document.createElement('div');
+            nav.className = 'item';
+            nav.textContent = algo.name;
+            nav.onclick = (e) => handleItemClick(e, nav, algo, id);
+            allNavItems.push({ name: algo.name, element: nav });
+            catDiv.appendChild(nav);
         });
 
         const header = document.createElement('h3');
@@ -342,21 +241,15 @@ function renderSection(title, categories, prefix) {
     });
     navDiv.appendChild(sec);
 }
+
 /* ---------- HELPERS ---------- */
 function createSection(title) {
     const div = document.createElement('div'); div.className = 'section';
     const h = document.createElement('h3');
-    h.textContent = title;
+    h.innerHTML = `${title} <span style="font-size:0.8em;color:#aaa">Click to expand</span>`;
     h.onclick = () => div.querySelectorAll('.items').forEach(i => i.classList.toggle('active'));
     div.appendChild(h);
     return div;
-}
-
-/* ---------- CARDS ---------- */
-function createOverviewCard(name, desc) {
-    const card = document.createElement('div'); card.className = 'card active';
-    card.innerHTML = `<div class="name">${escape(name)}</div><p>${escape(desc)}</p>`;
-    return card;
 }
 
 function createAlgoCard(algo, id) {
@@ -364,22 +257,18 @@ function createAlgoCard(algo, id) {
     let html = `<div class="name">${escape(algo.name)}</div>`;
 
     if (algo.complexity) {
-        if (typeof algo.complexity === 'object') {
-            html += `<div class="complexity"><strong>Complexity:</strong><br>` +
-                    Object.entries(algo.complexity).map(([k,v]) => `• <strong>${k}:</strong> ${escape(v)}`).join('<br>') +
-                    `</div>`;
-        } else {
-            html += `<div class="complexity"><strong>Complexity:</strong> ${escape(algo.complexity)}</div>`;
-        }
+        html += `<div class="complexity"><strong>Complexity:</strong><br>` +
+                Object.entries(algo.complexity).map(([k,v]) => `• <strong>${k}:</strong> ${escape(v)}`).join('<br>') +
+                `</div>`;
     }
 
-    const pseudo = getAnyField(algo, ['pseudocode', 'operation.pseudocode', 'description.pseudocode', 'description.0.pseudocode']);
+    const pseudo = getAnyField(algo, ['pseudocode']);
     if (pseudo) {
         const code = Array.isArray(pseudo) ? pseudo.join('\n') : pseudo;
         html += `<pre><code class="language-javascript">${escape(code)}</code></pre>`;
     }
 
-    const usage = getAnyField(algo, ['usage', 'description.usage', 'description.0.usage']);
+    const usage = getAnyField(algo, ['usage']);
     if (usage) {
         const list = Array.isArray(usage) ? usage : [usage];
         html += `<div class="usage"><strong>Usage:</strong><ul>` +
@@ -392,39 +281,36 @@ function createAlgoCard(algo, id) {
     return card;
 }
 
-/* ---------- UNIVERSAL FIELD LOOKUP ---------- */
 function getAnyField(obj, paths) {
     for (const path of paths) {
         const parts = path.split('.');
         let value = obj;
         for (const part of parts) {
-            if (value && value[part] !== undefined) {
-                value = value[part];
-            } else {
-                value = null;
-                break;
-            }
+            if (value && value[part] !== undefined) value = value[part];
+            else { value = null; break; }
         }
         if (value !== null) return value;
     }
     return null;
 }
 
-/* ---------- SHOW CARD ---------- */
 function showCard(cardNode) {
     contentDiv.querySelectorAll('.card').forEach(c => c.remove());
     contentDiv.appendChild(cardNode);
     cardNode.classList.add('active');
 }
 
-/* ---------- UTILS ---------- */
 function escape(txt) {
     if (!txt) return '';
     return String(txt).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+
 function showError(msg) {
     contentDiv.innerHTML = `<div class="error">${msg}</div>`;
 }
+
+/* ---------- INIT ---------- */
+loadLocalJSON();
 </script>
 </body>
 </html>
